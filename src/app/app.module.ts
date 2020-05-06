@@ -13,6 +13,7 @@ import { SupplierComponent } from './components/supplier/supplier.component';
 import { TransporterComponent } from './components/transporter/transporter.component';
 import { UserComponent } from './components/user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EthcontractService } from './ethcontract.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [EthcontractService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

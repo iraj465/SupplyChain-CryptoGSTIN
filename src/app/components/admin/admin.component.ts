@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { FormBuilder, Validators, FormControl, NgSelectOption } from '@angular/forms';
-
 import { UserTable } from './usertable';
 import { async } from '@angular/core/testing';
 import * as $ from 'jquery';
 import Swal from 'sweetalert2'
+import { Admin } from './admin.model';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -17,12 +17,16 @@ import Swal from 'sweetalert2'
 export class AdminComponent implements OnInit {
 
   AdminAccount = "0x0000000000000000000000000000000000000000";
+  contract;
   balance = '0 ETH';
   amount = 0;
   role: 0;
   contractAddress: "0x0000000000000000000000000000000000000000";
   userCount = -1;
   closeResult: any;
+  AdminBalance:any;
+  test1:any;
+  test2:any;
   registerUser = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(16)]],
     ethaddress: ['', Validators.required],
@@ -32,7 +36,7 @@ export class AdminComponent implements OnInit {
       longitude: ['']
     })
   });
-
+ AdminObj : Admin;
   Roles = [
     { role: "NoRole", value: 0 },
     { role: "Supplier", value: 1 },
@@ -55,41 +59,68 @@ export class AdminComponent implements OnInit {
     private ethcontractService: EthcontractService,
     private fb: FormBuilder
   ) {
-    localStorage.setItem('useridpointer', 0 + '');
-    this.initAndDisplayAccount();
+    // localStorage.setItem('useridpointer', 0 + '');
+    // this.initAndDisplayAccount();
     // this.testcount();
   }
   ngOnInit() {
-  }
+    console.log('In admin');
+    this.ethcontractService.getAdminDetails()
+      .subscribe(details => this.AdminObj = details);
+    }
+// public async getAdminDetailsFromService() {
+//   this.ethcontractService.getAdminDetails()
+//     .subscribe(function(details) {
+//       this.test1 = details;
+//       console.log(typeof details);
+//       console.log(this.test1);
+//     });
+// }
+  // public async initAndDisplayAccount(){
+  //   console.log('Web3 init');
+  //   await this.ethcontractService.checkAndInstantiateWeb3()
+  //   .then((res: any) => {
+  //     console.log("current address");
+  //     console.log(res);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   await this.ethcontractService.getContract()
+  //   .then(async (contract:any) => {
+  //     this.contract = contract;
+  //    this.AdminAccount = await this.contract.methods.Owner().call()
+  //     .then(function(address:any){
+  //      //owner address assigned to Adminaccount
+  //       return address;
+  //       // console.log(this.AdminAccount);
+  //     });
+  //     console.log('contract obtained');
+  //     console.log(this.AdminAccount);
 
-  public async initAndDisplayAccount(){
-    console.log('Web3 init');
-    await this.ethcontractService.checkAndInstantiateWeb3()
-    .then((res: any) => {
-      console.log("admin address");
-      console.log('pikachu');
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    let that = this;
-    await this.ethcontractService.getOwner().then(function (acctInfo:any) {
-      if (acctInfo.Role == 'Success') {
-        this.account = acctInfo.Account;
-        this.balance = acctInfo.Balance;
-        this.contractAddress = acctInfo.contractAddress;
-        this.userCount = acctInfo.UserCount;
-        this.getUserInfo();
-      } else {
-        this.router.navigate(['/']);
-      }
-      console.log(acctInfo)
-    }).catch((error) => {
-      console.log(error);
-      this.router.navigate(['/']);
-    });
-  }
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   let that = this;
+  //   await this.ethcontractService.getOwner().then(function (acctInfo:any) {
+  //     if (acctInfo.Role == 'Success') {
+  //       this.account = acctInfo.Account;
+  //       this.balance = acctInfo.Balance;
+  //       this.contractAddress = acctInfo.contractAddress;
+  //       this.userCount = acctInfo.UserCount;
+  //       this.getUserInfo();
+  //     } else {
+  //       this.router.navigate(['/']);
+  //     }
+  //     console.log(acctInfo)
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     this.router.navigate(['/']);
+  //   });
+  //   console.log('there goes the contract');
+  //   console.log(this.contract);
+  // }
 
   getUserInfo = async () => {
     let that = this;
