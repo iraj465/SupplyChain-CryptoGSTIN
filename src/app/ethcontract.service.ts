@@ -44,39 +44,36 @@ export class EthcontractService {
 
   /************************************************* Constructor ***********************************/
   constructor(private router: Router) {
-    this.initAndDisplayAccount();
+    // this.checkAndInstantiateWeb3();
   }
-
 
   public checkAndInstantiateWeb3() {
      return new Promise((resolve, reject) => {
-      let account_address = "";
-          // let ethereum = window.ethereum;
-          // let web3 = window.web3;
-          // if(typeof ethereum !== 'undefined'){
-          //   console.log('eth web3 found');
-          //   await ethereum.enable();
-          //   web3 = new Web3(ethereum);
-          //   const accounts = await ethereum.enable();
-          //   account_address = accounts[0];
-          // }
+    //   let account_address = "";
           if (typeof window.web3 !== 'undefined') {
-            console.log('metamask web3 instance found');
+            console.log('metamask web3 instance injected');
             window.web3 = new Web3(window.web3.currentProvider);
           } else {
             console.log('localhost web3 found');
             window.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
           }
           this.web3 = window.web3;
-          // console.log(this.web3);
-          this.web3.eth.getAccounts((error, accounts) => {
-            account_address = accounts[0];
-            resolve(account_address);
+    //       this.web3.eth.getAccounts((error, accounts) => {
+    //         account_address = accounts[0];
+    //         console.log(account_address);
+            resolve(this.web3);
           });
+    // })
+    // .then(function(result){
+    //   return result
+    // })
+  }
+  public async getWeb3(){
+    const web3obj = await this.checkAndInstantiateWeb3();
+    return new Promise((resolve,reject) =>{
+      resolve(web3obj);
     })
-    .then(function(result){
-      return result
-    })
+   
   }
 
   public async getContract() {
@@ -90,63 +87,60 @@ export class EthcontractService {
           networkId = netId;
           const networkAddress = SupplyChain.networks[networkId].address;
           const contract = new this.web3.eth.Contract(SupplyChain.abi, networkAddress);
+          // console.log(contract);
           resolve(contract);
         });
-
-    //   setTimeout(() => { 
-    //     resolve(this.contracts_SupplyChain);
-    // }, 1000); 
     })
     .then(function(result){
       return result
     })
   }
 
-  public async initAndDisplayAccount(){
-    console.log('Web3 init');
-    await this.checkAndInstantiateWeb3()
-    .then((res: any) => {
-      console.log("current address");
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    this.getContract()
-    .then(async (contract:any) => {
-      this.contract = contract;
-     this.AdminAccount = await this.contract.methods.Owner().call()
-      .then(function(address:any){
-       //owner address assigned to Adminaccount
-        return address;
-        // console.log(this.AdminAccount);
-      });
-      console.log('contract obtained');
-      console.log('Admin address');
-      console.log(this.AdminAccount);
+  // public async initAndDisplayAccount(){
+  //   console.log('Web3 init');
+  //   await this.checkAndInstantiateWeb3()
+  //   .then((res: any) => {
+  //     console.log("current address");
+  //     console.log(res);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   this.getContract()
+  //   .then(async (contract:any) => {
+  //     this.contract = contract;
+  //    this.AdminAccount = await this.contract.methods.Owner().call()
+  //     .then(function(address:any){
+  //      //owner address assigned to Adminaccount
+  //       return address;
+  //       // console.log(this.AdminAccount);
+  //     });
+  //     console.log('contract obtained');
+  //     console.log('Admin address');
+  //     console.log(this.AdminAccount);
 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    console.log('there goes the contract');
-    // console.log(this.contract);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   console.log('there goes the contract');
+  //   // console.log(this.contract);
     
-    var arr =  this.getOwner()
-    .then(function (acctInfo:any) {
-      if (acctInfo[2] == 'Success') {
-        return acctInfo;
-      } else {
-        this.router.navigate(['/']);
-      }
-    }).catch((error) => {
-      console.log(error);
-      this.router.navigate(['/']);
-    });
-   //set admin creds
-   this.AdminAccount = arr[0];
-   this.AdminBalance = arr[1];
-  }
+  //   var arr =  this.getOwner()
+  //   .then(function (acctInfo:any) {
+  //     if (acctInfo[2] == 'Success') {
+  //       return acctInfo;
+  //     } else {
+  //       this.router.navigate(['/']);
+  //     }
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     this.router.navigate(['/']);
+  //   });
+  //  //set admin creds
+  //  this.AdminAccount = arr[0];
+  //  this.AdminBalance = arr[1];
+  // }
 
   /************************************************* Basic *****************************************/
   public async getcoinbase() {

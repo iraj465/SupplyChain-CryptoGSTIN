@@ -1,18 +1,151 @@
-<h4>Account</h4>
-<div>
-    <li>{{AdminObj.AdminAccount}}</li>
-</div>
-<h4>Balance</h4>
-<div>
-    <li>{{balance}}</li>
-</div>
+<div class="tile is-ancestor">
+    <div class="tile is-vertical is-12">
 
-<h4>AdminAccount</h4>
-<div>
-    <li>{{AdminAccount}}</li>
-</div>
-<h4>Balance</h4>
-<div>
-    <li>{{AdminBalance}}</li>
-</div>
+      <!-- left part  -->
+      <div class="tile">
+        <div class="tile is-parent is-vertical">
+          <article class="tile is-child is- 2by2 notification is-primary">
+            <p class="title">Welcome back,Admin</p>
+            <!-- <p class="subtitle"></p> -->
+          </article>
+          <article class="tile is-child notification is-warning">
+              <div class="has-text-left-desktop">
+                <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4 ><li style="color:blue;font-size:larger;font-weight: 800;"> {{admin.AdminAccount}}</li>
+                <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{admin.AdminBalance}} ETH</li>
+              </div> 
+          </article>
+          <!-- users count tab follows -->
+          <article class="tile is-child notification is-warning">
+            <div class="has-text-left-desktop">
+              <button (click)="getUsersCount()" class="button is-primary is-8">Number of users</button> 
+              <h5 *ngIf="userCountPressed" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{userCount}}</h5>            
+            </div> 
+        </article>
+        </div>
+        <!-- users info tile follows -->
+        <div class="tile is-parent is-8">
+          <article class="tile is-child notification is-info">
+            <p class="title">Registered User Information</p>
+            <label class="label">ETH Address</label>
+            <input class="input is-success" type="text" placeholder="Enter Ethereum Address " [(ngModel)]="userAddress">
+            <div class="row">
+              <div class="column">
+                <button (click)="getUsersInfo()" class="button is-primary is-6">Get</button>
+              </div>
+              <div class="column">
+                <button (click)="revokeUserRole()" class="button is-primary is-6">Revoke Role</button>
+              </div>
+              <div class="column">
+                <button class="button is-primary is-6">Reassign Role</button>
+              </div>
+              <div class="column">
+                <button (click)="resetUser()" class="button is-danger is-6">Reset</button>
+              </div>
+            </div>
+            <div *ngIf="userinfoButtonPressed">
+              <label class="label">Encoded Name</label>
+              <p>{{userinfoName}}</p>
+              <label class="label">Encoded Location</label>
+              <p>{{userinfoLocation}}</p>
+              <label class="label">Role</label>
+              <p>{{userinfoRole}}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <!-- actions tile -->
+      <div class="tile is-parent is-12">
+        <article class="tile is-child notification is-danger">
+          <div class="row">
+            <div class="column">
+              <p class="title">Actions :</p>
+            </div>
+            <div class="column">
+              <p class="title">Register</p>
+            </div>
+            <div class="column">
+              <p class="title">Revoke Role</p>
+            </div>
+            <div class="column">
+              <p class="title">Reassign Role</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  
 
+  <!-- Register user banner -->
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Register Users</p>
+      <h2 class="subtitle">
+        Intermediaries for Supply Chain
+      </h2>
+    </article>
+  </div>
+
+
+  <!-- new start -->
+  <form [formGroup]="user" (ngSubmit)="onSubmit()">
+  <div class="field">
+    <label class="label">ETH Address</label>
+    <div class="control">
+      <input class="input" type="text" placeholder="Enter Ethereum Address" formControlName="Address">
+    </div>
+  </div>
+  
+  <div class="field">
+    <label class="label">Name</label>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-success" type="text" placeholder="Enter Full Name" value="bulma" formControlName="Name">
+      <span class="icon is-small is-left">
+        <i class="fas fa-user"></i>
+      </span>
+      <span class="icon is-small is-right">
+        <i class="fas fa-check"></i>
+      </span>
+    </div>
+  </div>
+  
+  <div class="field">
+    <label class="label">Location</label>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-danger" type="email" placeholder="Enter Location" value="hello@" formControlName="Location">
+      <span class="icon is-small is-left">
+        <i class="fas fa-envelope"></i>
+      </span>
+      <span class="icon is-small is-right">
+        <i class="fas fa-exclamation-triangle"></i>
+      </span>
+    </div>
+  </div>
+  
+  <div class="field">
+    <label class="label">Role</label>
+    <div class="control">
+      <div class="select">
+        <input class="input is-danger" type="email" placeholder="Enter Location" value="hello@" formControlName="Role">
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        <input type="checkbox">
+        I agree to the <a href="#">terms and conditions</a>
+      </label>
+    </div>
+  </div> -->
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link">Submit</button>
+    </div>
+    <div class="control">
+      <button class="button is-link is-light">Cancel</button>
+    </div>
+  </div>
+</form>

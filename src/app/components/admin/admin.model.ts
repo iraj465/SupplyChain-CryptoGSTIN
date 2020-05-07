@@ -1,4 +1,6 @@
 export class Admin{
-    AdminAccount : String;
-    AdminBalance : String;
+    constructor(
+        public AdminAccount:String,
+        public AdminBalance:String)
+        {}
 }
