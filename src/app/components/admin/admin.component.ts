@@ -4,12 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { FormBuilder, Validators, FormControl, NgSelectOption, FormGroup } from '@angular/forms';
-import { UserTable } from './usertable';
-import { async } from '@angular/core/testing';
-import * as $ from 'jquery';
-import Swal from 'sweetalert2'
 import { Admin } from './admin.model';
-import { of, Observable } from 'rxjs';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -26,28 +21,14 @@ export class AdminComponent implements OnInit {
   userCount;
   closeResult: any;
   AdminBalance:any;
-  test1:any;
-  test2:any;
   web3:any;
   submitted:boolean = false;
-  registerUser = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(16)]],
-    ethaddress: ['', Validators.required],
-    rrole: ['0'],
-    location: this.fb.group({
-      latitude: [''],
-      longitude: ['']
-    })
-  });
+
  //Admin Details
  admin : Admin;
- 
   Roles = ["NoRole","Supplier", "Transporter", "Manufacturer","Wholesaler","Distributer",  "Consumer"];
-  user_list = [];//:UserTable[];
-  displayedColumns: string[] = ['ethaddress', 'location', 'name', 'role'];
+  
 
-  dataSource: MatTableDataSource<UserTable>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   user : FormGroup;
   userinfoName;
@@ -58,13 +39,21 @@ export class AdminComponent implements OnInit {
   userCountPressed: boolean = false;
   userAddress: any;
   userinfoButtonPressed: boolean;
+  accounts: any;
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private ethcontractService: EthcontractService,
     private fb: FormBuilder
   ) 
-  {}
+  {
+    this.user = new FormGroup({
+      Address : new FormControl(),
+      Name : new FormControl(),
+      Location : new FormControl(),
+      Role : new FormControl()
+    });
+  }
 
 
   public async InitContract(){
@@ -79,12 +68,6 @@ export class AdminComponent implements OnInit {
     this.Contract = await this.InitContract();
     console.log(this.Contract);
     await this.getAdminInfo();
-    this.user = new FormGroup({
-      Address : new FormControl(),
-      Name : new FormControl(),
-      Location : new FormControl(),
-      Role : new FormControl()
-    });
     // this.regUser();
     // await this.Contract.methods.registerUser("0x4DF745079D0FeeA8A2b279427de670422Fb7020a","rajju","india",2).send({from : this.admin.AdminAccount});
     // const info = await this.Contract.methods.getUserInfo("0x4DF745079D0FeeA8A2b279427de670422Fb7020a").call();
@@ -93,6 +76,7 @@ export class AdminComponent implements OnInit {
     // console.log(arr);
     // const acc = await this.web3.eth.getAccounts();
     // console.log(acc);
+    await this.getUserAccounts();
   }
     
   public async getAdminInfo(){
@@ -110,6 +94,7 @@ export class AdminComponent implements OnInit {
     console.log(arr);
     const acc = await this.web3.eth.getAccounts();
     console.log(acc);  
+    await this.getUserAccounts()
   }
 
   onSubmit(){
@@ -146,6 +131,12 @@ resetUser(){
   this.userinfoRole="";
   this.userinfoButtonPressed = false;
 }
+
+public async getUserAccounts(){
+  this.accounts = await this.web3.eth.getAccounts();
+  console.log(this.accounts);
+}
+
 
   // getUserInfo = async () => {
   //   let that = this;

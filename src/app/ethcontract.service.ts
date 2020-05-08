@@ -3,7 +3,7 @@ const Web3 = require("web3");
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as SupplyChain from './shared/Contracts/SupplyChain.json';
-import * as RawMatrials from './shared/Contracts/RawMatrials.json';
+import * as RawMaterials from './shared/Contracts/RawMaterials.json';
 import * as Madicine from './shared/Contracts/Madicine.json';
 import * as MadicineD_P from './shared/Contracts/MadicineD_P.json';
 import * as MadicineW_D from './shared/Contracts/MadicineW_D.json';
@@ -90,6 +90,19 @@ export class EthcontractService {
           // console.log(contract);
           resolve(contract);
         });
+    })
+    .then(function(result){
+      return result
+    })
+  }
+
+  public getRawMatContract() {
+    return new Promise(async (resolve) => {
+      console.log('inside getRawMatContract');
+      var accounts = await this.web3.eth.getAccounts();
+      const supplierAddress =accounts[0];
+      const rawMatContract = new this.web3.eth.Contract(RawMaterials.abi,supplierAddress);
+      resolve(rawMatContract);
     })
     .then(function(result){
       return result
@@ -256,43 +269,40 @@ public async getOwner() {
   }
 
   /************************************************* Users *****************************************/
-  getRole = () => {
-    let that = this;
-    return new Promise((resolve, reject) => {
-      that.web3.eth.getCoinbase(function (err, account) {
-        if (err === null) {
-          that.web3.eth.getBalance(account, function (err, balance) {
-            if (err === null) {
-              // that.contracts_SupplyChain.getUserInfo(
-              that.contracts_SupplyChain.getUserInfo(
-                account,
-                {
-                  from: account
-                }, function (error, res) {
-                  if (res) {
-                    // console.log(res[0].substring(0,34))
-                    var jsonres = {
-                      "Name": that.web3.toAscii(res[0].replace(/0+\b/, "")),
-                      "Location": that.web3.toAscii(res[1].replace(/0+\b/, "")),
-                      "EthAddress": res[2],
-                      "Role": JSON.parse(res[3])
-                    }
-                    return resolve({ Account: account, Balance: that.web3.fromWei(balance, "ether"), Role: jsonres });
-                  }
-                  else {
-                    return reject(error);
-                  }
-                });
-            } else {
-              return reject(err);
-            }
-          });
-        } else {
-          return reject(err);
-        }
-      });
-    });
-  }
+  // getRole = () => {
+  //   return new Promise((resolve, reject) => {
+  //     var accounts = this.web3.eth.getAccounts();
+  //     console.log(accounts);
+  //     var account =accounts[0];
+  //     const info = this.Contract.methods.getUserInfo(account).call();
+  //     this.web3.eth.getBalance(account, function (err, balance) {
+  //           if (err === null) {
+  //             // that.contracts_SupplyChain.getUserInfo(
+  //             this.Contract.getUserInfo(
+  //               account,
+  //               {
+  //                 from: account
+  //               }, function (error, res) {
+  //                 if (res) {
+  //                   // console.log(res[0].substring(0,34))
+  //                   var jsonres = {
+  //                     "Name": this.web3.toAscii(res[0].replace(/0+\b/, "")),
+  //                     "Location": this.web3.toAscii(res[1].replace(/0+\b/, "")),
+  //                     "EthAddress": res[2],
+  //                     "Role": JSON.parse(res[3])
+  //                   }
+  //                   return resolve({ Account: account, Balance: this.web3.fromWei(balance, "ether"), Role: jsonres });
+  //                 }
+  //                 else {
+  //                   return reject(error);
+  //                 }
+  //               });
+  //           } else {
+  //             return reject(err);
+  //           }
+  //         });
+  //   });
+  // }
 
   getUserCount = () => {
     let that = this;

@@ -1,1 +1,104 @@
-<p>supplier works!</p>
+
+<h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>Create Raw materials package </b></h4 ><form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label class="label">Manufacturer Address</label>
+      <div class="control">
+        <input class="input is-success" type="text" placeholder="Enter Manufacturer Ethereum Address" formControlName="MAddress">
+      </div>
+    </div>
+    <div class="field">
+        <label class="label">Transporter Address</label>
+        <div class="control">
+          <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Package ID</label>
+        <div class="control">
+          <input class="input is-success" type="text" placeholder="Enter Package ID" formControlName="packageId">
+        </div>
+      </div>
+    
+    <div class="field">
+      <label class="label">Number of units</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-danger" type="text" placeholder="Enter number of units of the raw material in package" value="bulma" formControlName="numUnits">
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Description of Raw materials</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-success" type="email" placeholder="Describe the raw materials in package" value="hello@" formControlName="rawMatDes">
+      </div>
+    </div>
+    
+    <div class="field">
+        <label class="label">Farm Location</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-danger" type="email" placeholder="Enter Farm Location" value="hello@" formControlName="farmLoc">
+        </div>
+      </div>
+      
+    
+    <!-- <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox">
+          I agree to the <a href="#">terms and conditions</a>
+        </label>
+      </div>
+    </div> -->
+    
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button is-link is-light">Cancel</button>
+      </div>
+    </div>
+  </form>
+<br>
+  <button (click)="getpackageCount()" class="button is-primary is-6">Get List of Packages</button>
+
+  <!-- <table mat-table [dataSource]="packages" class="mat-elevation-z8">
+    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  </table> -->
+<div *ngIf="tablepressed">
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">Description</th>
+        <th scope="col">Package ID</th>
+        <th scope="col">Location</th>
+        <th scope="col">Quantity</th>      
+        <th scope="col">Manufacturer Address</th>      
+        <th scope="col">Transporter Address</th>      
+        <th scope="col">Supplier Address</th>      
+        <th scope="col">Package Status</th>      
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let package of packages">
+        <td>{{package.Des}}</td>
+        <td>{{package.FN}}</td>
+        <td>{{package.Loc}}</td>
+        <td>{{package.Quant}}</td>
+        <td>{{package.Rcvr}}</td>
+        <td>{{package.Shpr}}</td>
+        <td>{{package.Splr}}</td>
+        <td>{{package.Status}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+  
+  

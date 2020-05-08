@@ -41,10 +41,10 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/admin',
+    redirectTo: '/supplier',
     pathMatch: 'full'
   },
-  { path: '**', redirectTo: '/admin' }
+  { path: '**', redirectTo: '/supplier' }
 ];
 
 @NgModule({

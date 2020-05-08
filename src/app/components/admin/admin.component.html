@@ -23,7 +23,7 @@
         </article>
         </div>
         <!-- users info tile follows -->
-        <div class="tile is-parent is-8">
+        <div class="tile is-parent is-6">
           <article class="tile is-child notification is-info">
             <p class="title">Registered User Information</p>
             <label class="label">ETH Address</label>
@@ -149,3 +149,18 @@
     </div>
   </div>
 </form>
+
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Users Accounts</p>
+      <!-- <button (click)="getUserAccounts()"></button> -->
+      <div class="content">
+        <ul>
+          <div *ngFor="let account of accounts">
+            <li >{{ account }}</li>
+          </div>
+        </ul>
+      </div>
+  </article>
+</div>
+
