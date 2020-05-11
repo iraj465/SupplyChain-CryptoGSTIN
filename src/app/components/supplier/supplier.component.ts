@@ -208,11 +208,12 @@ export class SupplierComponent implements OnInit {
     7: "Role Revoked"
   }
   packageStatus = {
-    0: "Not yet picked",
-    1: "Picked",
-    2: "Delivered"
+    0: "not yet picked from supplier",
+    1: "picked for manufacturer",
+    2: "delivered to manufacturer"
   }
   tablepressed = false;
+  matstat = false;
   displayedColumns: string[] = [
     'description',
     'Package ID',
@@ -249,6 +250,8 @@ export class SupplierComponent implements OnInit {
   packinfo: any;
   AdminAddress: string;
   packages: any = [];
+  packageID: any;
+  getStatus: any;
 
   constructor(private ethcontractService: EthcontractService,
     private fb: FormBuilder
@@ -256,7 +259,6 @@ export class SupplierComponent implements OnInit {
       this.form = new FormGroup({
         MAddress : new FormControl(),
         TAddress : new FormControl(),
-        packageId : new FormControl(),
         numUnits : new FormControl(),
         rawMatDes : new FormControl(),
         farmLoc : new FormControl()
@@ -325,7 +327,9 @@ export class SupplierComponent implements OnInit {
   public async createPackage(){
     console.log('creating package');
     console.log(this.Contract);
-    const packinfo = await this.Contract.methods.createRawPackage(this.form.get('rawMatDes').value,this.form.get('packageId').value,this.form.get('farmLoc').value,this.form.get('numUnits').value,this.form.get('TAddress').value,this.form.get('MAddress').value).send({from : this.supplierAddress});
+    var currentdate = new Date();
+    var date = currentdate.toString();
+    const packinfo = await this.Contract.methods.createRawPackage(this.form.get('rawMatDes').value,date,this.form.get('farmLoc').value,this.form.get('numUnits').value,this.form.get('TAddress').value,this.form.get('MAddress').value).send({from : this.supplierAddress});
     console.log('Created package info');
     console.log(packinfo);
   }
@@ -345,10 +349,10 @@ export class SupplierComponent implements OnInit {
     
 
     for (i = from; i < to; i++) {
-      const batchId = await this.Contract.methods.getPackageIdByIndexS(i).call({from: this.supplierAddress});
+      const packageId = await this.Contract.methods.getPackageIdByIndexS(i).call({from: this.supplierAddress});
      
       //create new intsance of RawMaterials contract for corresponding batchId
-      this.rawMatContract = new this.web3.eth.Contract(this.RawMaterials_abi,batchId, {
+      this.rawMatContract = new this.web3.eth.Contract(this.RawMaterials_abi,packageId, {
         from: this.supplierAddress});
 
       //find status of package
@@ -356,14 +360,28 @@ export class SupplierComponent implements OnInit {
      
       //get package details
       const result = await this.rawMatContract.methods.getSuppliedRawMatrials().call({from: this.supplierAddress});
-      
       result['Status'] = this.packageStatus[statusNo];
+      result['pid'] = packageId;
 
       this.packages.push(result);
   }
   console.log(this.packages);
-  
+  }
 
+  public async getrawMaterialStatus(){
+    this.matstat = true;
+    console.log('hula');
+    console.log(this.packageID);
+    this.rawMatContract = new this.web3.eth.Contract(this.RawMaterials_abi,this.packageID,{from:this.supplierAddress});
+    console.log('hula2');
+    console.log(this.rawMatContract);
+    const statno = await this.rawMatContract.methods.getRawMatrialsStatus().call();
+    console.log(statno);
+    this.getStatus = this.packageStatus[statno];
+    console.log(this.getStatus);
+  }
+  resetpackages(){
+    this.packages = [];
   }
 
 

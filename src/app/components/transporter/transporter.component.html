@@ -1,1 +1,99 @@
-<p>transporter works!</p>
+<!-- <input class="input is-success" type="text" placeholder="Enter Package ID " [(ngModel)]="packageId"> -->
+<h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Transporter Page</b></h4>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{transName}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{transLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{transAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{transBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+                                                    <!-- // SUPPLIER TO MANUFACTURER -->
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Transport Raw Material Package</p>
+    <h2 class="subtitle">
+      Supplier to Manufacturer
+    </h2>
+  </article>
+</div>
+
+    <div class="field">
+      <label class="label">From Supplier</label>
+        <input class="input is-success" type="text" placeholder="Enter Supplier ETH address" [(ngModel)]="supplierAddress">
+    </div> 
+    <div class="field">
+      <label class="label">Package UID</label>
+      <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageID">
+    </div> 
+    <div class="field">
+      <button class="button is-primary" (click)="pickpackageSM()">Pick Package</button>
+    </div>
+  
+  <div class="field">
+    <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageId">
+    <div class="field">
+      <button class="button is-danger" (click)="getrawMaterialStatusOne()">Get Status</button>
+    </div>
+    <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstat"><b>{{getStatus}}</b></h4>
+  </div>
+  
+  <!-- Manufacturer to Wholesaler -->
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Transport Product</p>
+      <h2 class="subtitle">
+        Manufacturer to Wholesaler
+      </h2>
+    </article>
+  </div>
+  <div class="field">
+    <label class="label">Manufacturer Address</label>
+    <input class="input is-success" type="text" placeholder="Enter manu address " [(ngModel)]="manuAddress">
+  </div> 
+
+  <div class="field">
+    <label class="label">Package UID</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="prodID">
+  </div> 
+  <div class="field">
+
+    <div class="field">
+      <label class="label">CID</label>
+      <input class="input is-success" type="text" placeholder="CID" [(ngModel)]="cid">
+    </div> 
+
+    <div class="field">
+    <button class="button is-primary" (click)="pickpackageMW()">Pick Package</button>
+  </div>
+
+<div class="field">
+  <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="prodId">
+  <div class="field">
+    <button class="button is-danger" (click)="getrawMaterialStatusTwo()">Get Status</button>
+  </div>
+  <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstattwo"><b>{{getStatus}}</b></h4>
+</div>
+
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Transport Product</p>
+      <h2 class="subtitle">
+        Wholesaler to Retailer
+      </h2>
+    </article>
+  </div>
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Transport Product</p>
+      <h2 class="subtitle">
+        Retailer to Consumer
+      </h2>
+    </article>
+  </div>
+

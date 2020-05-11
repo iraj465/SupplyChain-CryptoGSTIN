@@ -1,1 +1,217 @@
-<p>manufacturer works!</p>
+<h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Manufacturer Page</b></h4>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuName}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <button (click)="getpackCount()" class="button is-primary is-8">Number of raw material packages received</button> 
+    <h5 *ngIf="packcountPressed" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{packCount}}</h5>            
+  </div> 
+</article>
+<br>
+
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <button (click)="getprodCount()" class="button is-primary is-8">Number of products manufactured</button> 
+    <h5 *ngIf="prodcountPressed" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{prodCount}}</h5>            
+  </div> 
+</article>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Receive Package</p>
+    <h2 class="subtitle">
+      From Transporter
+    </h2>
+  </article>
+</div>
+
+<div class="field">
+    <label class="label">Raw Materials source (Supplier Address)</label>
+      <input class="input is-success" type="text" placeholder="Enter Supplier ETH address" [(ngModel)]="supplierAddress">
+  </div> 
+  <div class="field">
+    <label class="label">Package UID</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageID">
+  </div> 
+  <div class="field">
+    <button class="button is-primary" (click)="receivepackage()">Receive Package</button>
+  </div>
+
+<div class="field">
+  <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageId">
+  <div class="field">
+    <button class="button is-danger" (click)=" getrawMaterialStatus()">Get Status</button>
+  </div>
+  <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstat"><b>{{getStatus}}</b></h4>
+</div>
+
+                <!-- Create Product -->
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Create Product package</p>
+      <h2 class="subtitle">
+        To Wholesaler
+      </h2>
+    </article>
+  </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit1()">
+ 
+  <div class="field">
+      <label class="label">Transporter Address</label>
+      <div class="control">
+        <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Raw Materials Used</label>
+      <div class="control">
+        <input class="input is-success" type="text" placeholder="Enter Raw Materials used" formControlName="rawmat">
+      </div>
+    </div>
+  
+  <div class="field">
+    <label class="label">Number of units</label>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-danger" type="text" placeholder="Enter number of units" formControlName="numUnits">
+    </div>
+  </div>
+  
+  <div class="field">
+    <label class="label">Description of Product</label>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-success" type="email" placeholder="Describe the product" value="hello@" formControlName="prodDes">
+    </div>
+  </div>
+  
+  <!-- <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        <input type="checkbox">
+        I agree to the <a href="#">terms and conditions</a>
+      </label>
+    </div>
+  </div> -->
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link">Submit</button>
+    </div>
+    <div class="control">
+      <button class="button is-link is-light">Cancel</button>
+    </div>
+  </div>
+</form>
+<br>
+                        <!-- // Find product status with unique product id -->
+<label class="label">Find Product Status</label>
+<div class="field">
+  <input class="input is-success" type="text" placeholder="Enter unique Product ID " [(ngModel)]="prodId">
+  <div class="field">
+    <button class="button is-danger" (click)="getprodStatus()">Get Status</button>
+  </div>
+  <h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>{{status}}</b></h4>
+</div>
+
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Create Product package</p>
+    <h2 class="subtitle">
+      To Retailer (Directly)
+    </h2>
+  </article>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit2()">
+
+<div class="field">
+    <label class="label">Transporter Address</label>
+    <div class="control">
+      <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Raw Materials</label>
+    <div class="control">
+      <input class="input is-success" type="text" placeholder="Enter Raw Materials used" formControlName="rawmat">
+    </div>
+  </div>
+
+<div class="field">
+  <label class="label">Number of units</label>
+  <div class="control has-icons-left has-icons-right">
+    <input class="input is-danger" type="text" placeholder="Enter number of units" value="bulma" formControlName="numUnits">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Description of Product</label>
+  <div class="control has-icons-left has-icons-right">
+    <input class="input is-success" type="email" placeholder="Describe the product" value="hello@" formControlName="prodDes">
+  </div>
+</div>
+
+<!-- <div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox">
+      I agree to the <a href="#">terms and conditions</a>
+    </label>
+  </div>
+</div> -->
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
+</div>
+</form>
+<br>
+<br>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-primary" (click)="getProdInfo()">Get Product Manu details</button>
+  </div>
+  <div class="control">
+    <button class="button is-danger" (click)="resetpackages()">Reset</button>
+  </div>
+</div>
+
+
+<div *ngIf="tablepressed">
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">Description</th>
+        <th scope="col">Raw Materials used</th>
+        <th scope="col">Quantity</th>      
+        <th scope="col">Manufacturer Address</th>      
+        <th scope="col">Transporter Address</th>      
+        <th scope="col">Product Status</th>  
+        <th scope="col">Product ID</th>    
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{product.Des}}</td>
+        <td>{{product.RM}}</td>
+        <td>{{product.Quant}}</td>
+        <td>{{product.Manu}}</td>
+        <td>{{product.Shpr}}</td>
+        <td>{{product.Status}}</td>
+        <td>{{product.pid}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
