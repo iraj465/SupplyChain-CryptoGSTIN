@@ -45,5 +45,22 @@
   <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="storeAddress">
 </div>  
 <div class="field">
-  <button class="button is-primary" (click)="toStore()">Send</button>
+  <button class="button is-primary" (click)="toStore()">Create Consignment</button>
 </div>
+
+<h3>Batch count</h3>
+<div class="field">
+  <button class="button is-primary" (click)="batchCount()">get batches</button>
+</div>
+
+<br>
+<br>
+<article class="tile is-child notification is-warning">
+  <p class="title">Get Product Serialized B-GTIN</p>
+  <div class="has-text-left-desktop">
+    <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Product ID" [(ngModel)]="productid">
+    <button (click)="getCid()" class="button is-primary is-8">Get Serialized B-GTIN</button> 
+    <h5 *ngIf="cidPressed" style="color: brown;font-size: larger;font-weight: 800;padding-left: 2rem;">{{cid}}</h5>            
+  </div> 
+</article>

@@ -64,6 +64,13 @@
     </article>
   </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit1()">
+
+  <div class="field">
+    <label class="label">Wholesaler Address</label>
+    <div class="control">
+      <input class="input is-danger" type="text" placeholder="Enter Wholesaler Ethereum Address" formControlName="WAddress">
+    </div>
+  </div>
  
   <div class="field">
       <label class="label">Transporter Address</label>
@@ -181,7 +188,7 @@
 
 <div class="field is-grouped">
   <div class="control">
-    <button class="button is-primary" (click)="getProdInfo()">Get Product Manu details</button>
+    <button class="button is-primary" (click)="getProdInfo()">Get Manufactured Product details</button>
   </div>
   <div class="control">
     <button class="button is-danger" (click)="resetpackages()">Reset</button>
@@ -197,7 +204,8 @@
         <th scope="col">Raw Materials used</th>
         <th scope="col">Quantity</th>      
         <th scope="col">Manufacturer Address</th>      
-        <th scope="col">Transporter Address</th>      
+        <th scope="col">Transporter Address</th>
+        <th scope="col">Wholesaler Address</th>            
         <th scope="col">Product Status</th>  
         <th scope="col">Product ID</th>    
       </tr>
@@ -209,6 +217,7 @@
         <td>{{product.Quant}}</td>
         <td>{{product.Manu}}</td>
         <td>{{product.Shpr}}</td>
+        <td>{{product.WAddress}}</td>
         <td>{{product.Status}}</td>
         <td>{{product.pid}}</td>
       </tr>

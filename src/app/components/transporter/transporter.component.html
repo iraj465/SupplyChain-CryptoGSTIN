@@ -39,6 +39,23 @@
     </div>
     <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstat"><b>{{getStatus}}</b></h4>
   </div>
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Manufactured Product Status</p>
+      <h2 class="subtitle">
+        Get Manufactured Product status at any point in the supply chain
+      </h2>
+    </article>
+  </div>
+  <div class="field">
+    <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="prodId">
+    <div class="field">
+      <button class="button is-danger" (click)="getrawMaterialStatusTwo()">Get Status</button>
+    </div>
+    <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstattwo"><b>{{getStatus}}</b></h4>
+  </div>
+
   
   <!-- Manufacturer to Wholesaler -->
 
@@ -62,38 +79,49 @@
   <div class="field">
 
     <div class="field">
-      <label class="label">CID</label>
-      <input class="input is-success" type="text" placeholder="CID" [(ngModel)]="cid">
-    </div> 
-
-    <div class="field">
     <button class="button is-primary" (click)="pickpackageMW()">Pick Package</button>
   </div>
 
-<div class="field">
-  <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="prodId">
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Transport Product</p>
+      <h2 class="subtitle">
+        Wholesaler to Distributer
+      </h2>
+    </article>
+  </div>
+
   <div class="field">
-    <button class="button is-danger" (click)="getrawMaterialStatusTwo()">Get Status</button>
-  </div>
-  <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstattwo"><b>{{getStatus}}</b></h4>
-</div>
-
-
-  <div class="tile is-parent">
-    <article class="tile is-child notification is-primary is-bold">
-      <p class="title">Transport Product</p>
-      <h2 class="subtitle">
-        Wholesaler to Retailer
-      </h2>
-    </article>
+    <label class="label">Product UID</label>
+      <input class="input is-success" type="text" placeholder="Enter Product UID" [(ngModel)]="pUID">
+  </div> 
+  <div class="field">
+    <label class="label">Consignment UID</label>
+    <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="conID">
+  </div> 
+  <div class="field">
+    <button class="button is-primary" (click)="pickPackageWD()">Transfer Consignment</button>
   </div>
 
   <div class="tile is-parent">
     <article class="tile is-child notification is-primary is-bold">
       <p class="title">Transport Product</p>
       <h2 class="subtitle">
-        Retailer to Consumer
+        Distributer to Store
       </h2>
     </article>
   </div>
+  <div class="field">
+    <label class="label">Product UID</label>
+      <input class="input is-success" type="text" placeholder="Enter Product UID" [(ngModel)]="pUID">
+  </div> 
+  <div class="field">
+    <label class="label">Consignment UID</label>
+    <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="conID">
+  </div> 
+  <div class="field">
+    <button class="button is-primary" (click)="pickPackageDR()">Transfer Consignment</button>
+  </div>
+
 

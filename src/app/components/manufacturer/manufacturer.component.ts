@@ -28,10 +28,10 @@ export class ManufacturerComponent implements OnInit {
   };
   prodStatus = {
     0: "at Manufacturer",
-    1: "picked4W",
-    2: "picked4D",    
-    3: "deliveredatW",
-    4: "deliveredatD",
+    1: "picked from manufacturer",
+    2: "picked for distributer",    
+    3: "Product delivered to wholesaler",
+    4: "received by distributer",
     5: "picked4P",
     6: "deliveredatP"
   }
@@ -50,9 +50,11 @@ export class ManufacturerComponent implements OnInit {
   prodId: any;
   status: any;
   tablepressed: boolean;
+  WAddress: any;
   constructor(private ethcontractService: EthcontractService) {
     this.form = new FormGroup({
       TAddress : new FormControl(),
+      WAddress: new FormControl(),
       rawmat : new FormControl(),
       numUnits : new FormControl(),
       prodDes : new FormControl()
@@ -126,7 +128,7 @@ export class ManufacturerComponent implements OnInit {
       console.log(this.Contract);
       const des = this.web3.utils.fromAscii(this.form.get('prodDes').value);
       const rm = this.web3.utils.fromAscii(this.form.get('rawmat').value);
-      const packinfo = await this.Contract.methods.manufacturMadicine(des,rm,this.form.get('numUnits').value,this.form.get('TAddress').value,this.manuAddress,1).send({from : this.manuAddress});
+      const packinfo = await this.Contract.methods.manufacturMadicine(des,rm,this.form.get('numUnits').value,this.form.get('TAddress').value,this.form.get('WAddress').value,1).send({from : this.manuAddress});
       console.log('Created package info');
       console.log(packinfo);
     }
@@ -149,7 +151,6 @@ export class ManufacturerComponent implements OnInit {
       this.packCount = await this.Contract.methods.getPackagesCountM().call({from:this.manuAddress});
       console.log(this.packCount);
     }
-
     public async getprodCount(){
       this.prodcountPressed = true;
       this.prodCount  = await this.Contract.methods.getBatchesCountM().call({from:this.manuAddress});
@@ -157,10 +158,9 @@ export class ManufacturerComponent implements OnInit {
 
     public async getProdInfo(){
       this.tablepressed = true;
-      this.getprodCount();
       let i: number;
       let from = 0;
-      let to = this.prodCount;
+      let to = await this.Contract.methods.getBatchesCountM().call({from:this.manuAddress});
       
   
       for (i = from; i < to; i++) {
@@ -175,10 +175,12 @@ export class ManufacturerComponent implements OnInit {
        
         //get package details
         const result = await this.prodContract.methods.getMadicineInfo().call({from: this.manuAddress});
+        const adds = await this.prodContract.methods.getWDP().call({from: this.manuAddress});
         result['Des'] = this.web3.utils.toAscii(result['Des'].replace(/0+\b/, ""));
         result['RM'] = this.web3.utils.toAscii(result['RM'].replace(/0+\b/, ""));
         result['pid'] = prodId;
         result['Status'] = this.prodStatus[statusNo];
+        result['WAddress'] = adds[0];
 
         console.log(result);
         this.products.push(result);

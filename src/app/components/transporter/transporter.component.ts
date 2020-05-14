@@ -27,13 +27,13 @@ export class TransporterComponent implements OnInit {
     2: "delivered to manufacturer"
   }
   prodStatus = {
-    0: "at creator",
-    1: "picked4W",
-    2: "picked4D",    
+    0: "at Manufacturer!",
+    1: "picked for Wholesaler",
+    2: "picked for Retailer",    
     3: "deliveredatW",
     4: "deliveredatD",
-    5: "picked4P",
-    6: "deliveredatP"
+    5: "picked for Store",
+    6: "delivered at Store"
   }
   matstat: boolean;
   getStatus: any;
@@ -45,6 +45,8 @@ export class TransporterComponent implements OnInit {
   prodContract: any;
   manuAddress: any;
   matstattwo: boolean;
+  pUID: any;
+  conID: any;
   constructor(private ethcontractService: EthcontractService) {
      }
 
@@ -116,19 +118,35 @@ export class TransporterComponent implements OnInit {
     // MANUFACTURER TO WHOLESALER
 
     public async pickpackageMW(){
-    const pick = await this.Contract.methods.loadConsingment(this.prodID,2,"none").send({from : this.transAddress});
-    console.log('Manu to WHole');
-    console.log(pick);
+      this.prodContract = new this.web3.eth.Contract(Madicine.abi,this.prodID,{from:this.manuAddress});
+      const pick = await this.prodContract.methods.pickPackage(this.transAddress).send({from : this.transAddress});
+      console.log('Manu to WHole');
+      console.log(pick);
 
       }
       public async getrawMaterialStatusTwo(){
         this.matstattwo = true;
         this.prodContract = new this.web3.eth.Contract(Madicine.abi,this.prodId,{from:this.manuAddress});
-        const statno = await this.prodContract.methods.getBatchIDStatus().call();
+        console.log('1');
+        console.log(this.prodContract);
+        const statno = await this.prodContract.methods.getBatchIDStatus().call({from:this.manuAddress});
+        console.log('2');
         console.log(statno);
         this.getStatus = 'Package ' + this.prodStatus[statno] +' !';
         console.log(this.getStatus);
       }
-                                                
+
+                      // Wholesaler to Retailer
+      public async pickPackageWD(){
+        const load = await this.Contract.methods.loadConsingment(this.pUID,3,this.conID).send({from:this.transAddress});
+        console.log('load');
+        console.log(load);
+      }
+            // Distributer to Store
+      public async pickPackageDR(){
+        const load = await this.Contract.methods.loadConsingment(this.pUID,4,this.conID).send({from:this.transAddress});
+        console.log('load');
+        console.log(load);
+      }
 
 }

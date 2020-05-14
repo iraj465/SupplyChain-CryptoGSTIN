@@ -1,1 +1,94 @@
-<p>wholesaler works!</p>
+<h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Wholesaler Page</b></h4>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{wholeName}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{wholeLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{wholeAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{wholeBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+
+
+
+  <div class="field">
+    <input class="input is-success" type="text" placeholder="Enter unique Product ID" [(ngModel)]="pId">
+    <div class="field">
+      <button class="button is-danger" (click)="getprodStatus()">Get Status</button>
+    </div>
+    <h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>{{status}}</b></h4>
+  </div>
+
+  <article class="tile is-child notification is-warning">
+    <div class="has-text-left-desktop">
+      <button (click)="getbatchCount()" class="button is-primary is-8">Number of consignments</button> 
+      <h5 *ngIf="batchcnt" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{bcount}}</h5>            
+    </div> 
+  </article>
+  <br>
+
+  <article class="tile is-child notification is-warning">
+    <p class="title">Get Product Serialized B-GTIN</p>
+    <div class="has-text-left-desktop">
+      <label class="label">Product B-GTIN</label>
+      <input class="input is-success" type="text" placeholder="Enter unique Product ID" [(ngModel)]="productid">
+      <button (click)="getCid()" class="button is-primary is-8">Get Serialized B-GTIN</button> 
+      <h5 *ngIf="cidPressed" style="color: brown;font-size: larger;font-weight: 800;padding-left: 2rem;">{{cid}}</h5>            
+    </div> 
+  </article>
+
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="title">Transfer Product</p>
+      <h2 class="subtitle">
+        Wholesaler to Retailer
+      </h2>
+    </article>
+  </div>
+
+  <div class="field">
+    <label class="label">Transporter Address</label>
+      <input class="input is-success" type="text" placeholder="Enter Transporter ETH address" [(ngModel)]="TransAddress">
+  </div> 
+  <div class="field">
+    <label class="label">Retailer Address</label>
+      <input class="input is-success" type="text" placeholder="Enter Retailer ETH address" [(ngModel)]="RetaAddress">
+  </div> 
+  <div class="field">
+    <label class="label">B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Product ID" [(ngModel)]="prodID">
+  </div> 
+  <div class="field">
+    <button class="button is-primary" (click)="transfer()">Generate Serialized B-GTIN</button>
+  </div>
+  <br> 
+  <!-- //send Package to retailer -->
+  <div class="field">
+    <label class="label">Enter B-GTIN</label>
+      <input class="input is-success" type="text" placeholder="Enter Product Blockchain-GTIN" [(ngModel)]="pUID">
+  </div> 
+  <!-- <div class="field">
+    <label class="label">Consignment UID</label>
+    <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="conID">
+  </div>  -->
+  <div class="field">
+    <button class="button is-primary" (click)="receivePackage()">Receive Package from Manufacturer</button>
+  </div>
+<br>
+<div class="field is-grouped">
+  <div class="control">
+    <button (click)="getbatchIds()" class="button is-primary is-8">Get Serialized B-GTINs</button>
+  </div>
+  <div class="control">
+    <button class="button is-danger" (click)="resetIDs()">Reset</button>
+  </div>
+</div>
+<div *ngIf="batchidpressed">
+  <ul *ngFor="let id of IDs">
+    <li style="color: brown;font-size: larger;font-weight: 600;">{{id}}</li>
+  </ul>
+</div>
+
+

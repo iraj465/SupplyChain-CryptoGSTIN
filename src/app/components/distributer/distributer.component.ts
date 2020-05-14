@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { EthcontractService } from 'src/app/ethcontract.service';
 
 @Component({
-  selector: 'app-retailer',
-  templateUrl: './retailer.component.html',
-  styleUrls: ['./retailer.component.css']
+  selector: 'app-distributer',
+  templateUrl: './distributer.component.html',
+  styleUrls: ['./distributer.component.css']
 })
-export class RetailerComponent implements OnInit {
+export class DistributerComponent implements OnInit {
   web3: any;
   Contract: any;
   AdminAddress: string;
@@ -20,6 +20,10 @@ export class RetailerComponent implements OnInit {
   bID: any;
   transAddress: any;
   storeAddress: any;
+  bCount: any;
+  cidPressed: boolean;
+  cid: any;
+  productid: any;
   constructor(private ethcontractService: EthcontractService) { }
 
   async ngOnInit(){
@@ -65,5 +69,27 @@ export class RetailerComponent implements OnInit {
     console.log('Transfer to Store');
     console.log(transfer);
   }
+  public async batchCount(){
+    this.bCount = await this.Contract.methods.getBatchesCountDP().call({from:this.retaAddress});
+    console.log('batch count');
+    console.log(this.bCount);
+    this.getBatches();
+  }
+  public async getBatches(){
+    // this.tablepressed = true;
+      let i: number;
+      let from = 0;
+      let to = this.bCount;
+      for (i = from; i < to; i++) {
+        const batch = await this.Contract.methods.getBatchIdByIndexDP(i).call({from:this.retaAddress});
+        console.log(batch);
 
+      }
+}
+public async getCid(){
+  this.cidPressed = true;
+  this.cid  = await this.Contract.methods.getSubContractDP(this.productid).call({from:this.retaAddress});
+  console.log('cid');
+  console.log(this.cid);
+}
 }

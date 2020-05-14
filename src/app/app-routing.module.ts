@@ -9,6 +9,9 @@ import { HomeComponent } from './components/home/home.component';
 import { WholesalerComponent } from './components/wholesaler/wholesaler.component';
 import { RetailerComponent } from './components/retailer/retailer.component';
 import { ConsumerComponent } from './components/consumer/consumer.component';
+import { StoreComponent } from './components/store/store.component';
+import { DistributerComponent } from './components/distributer/distributer.component';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 
 
 const routes: Routes = [
@@ -43,14 +46,19 @@ const routes: Routes = [
     data: { title: 'Wholesaler Page' }
   },
   {
-    path: 'retailer',
-    component: RetailerComponent,
-    data: { title: 'Retailer Page' }
+    path: 'distributer',
+    component: DistributerComponent,
+    data: { title: 'Distributer Page' }
   },
   {
-    path: 'consumer',
-    component: ConsumerComponent,
-    data: { title: 'Consumer Page' }
+    path: 'store',
+    component: StoreComponent,
+    data: { title: 'Store Page' }
+  },
+  {
+    path: 'transactions',
+    component: TransactionsComponent,
+    data: { title: 'Transactions Page' }
   },
   {
     path: 'admin',

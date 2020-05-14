@@ -28,6 +28,7 @@
             <p class="title">Registered User Information</p>
             <label class="label">ETH Address</label>
             <input class="input is-success" type="text" placeholder="Enter Ethereum Address " [(ngModel)]="userAddress">
+            <input class="input is-success" type="text" placeholder="Enter New Role " [(ngModel)]="userRole">
             <div class="row">
               <div class="column">
                 <button (click)="getUsersInfo()" class="button is-primary is-6">Get</button>
@@ -36,7 +37,7 @@
                 <button (click)="revokeUserRole()" class="button is-primary is-6">Revoke Role</button>
               </div>
               <div class="column">
-                <button class="button is-primary is-6">Reassign Role</button>
+                <button class="button is-primary is-6"   (click)="rerole()">Reassign Role</button>
               </div>
               <div class="column">
                 <button (click)="resetUser()" class="button is-danger is-6">Reset</button>

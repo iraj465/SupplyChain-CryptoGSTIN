@@ -26,7 +26,7 @@ export class AdminComponent implements OnInit {
 
  //Admin Details
  admin : Admin;
-  Roles = ["NoRole","Supplier", "Transporter", "Manufacturer","Wholesaler","Distributer",  "Consumer"];
+  Roles = ["NoRole","Supplier", "Transporter", "Manufacturer","Wholesaler","Distributer", "Retail Store"];
   
 
 
@@ -40,6 +40,8 @@ export class AdminComponent implements OnInit {
   userAddress: any;
   userinfoButtonPressed: boolean;
   accounts: any;
+  Adminaddress: any;
+  userRole: any;
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -80,10 +82,10 @@ export class AdminComponent implements OnInit {
   }
     
   public async getAdminInfo(){
-    const address = await this.Contract.methods.Owner().call();
-    const balanceWei = await this.web3.eth.getBalance(address);
+    this.Adminaddress = await this.Contract.methods.Owner().call();
+    const balanceWei = await this.web3.eth.getBalance(this.Adminaddress);
     const balanceETH = await this.web3.utils.fromWei(balanceWei, "ether");    
-    this.admin = new Admin(address,balanceETH);
+    this.admin = new Admin(this.Adminaddress,balanceETH);
     console.log(this.admin);
   }
 
@@ -121,8 +123,12 @@ export class AdminComponent implements OnInit {
 {
   console.log(this.userAddress);
   console.log(this.Roles.indexOf(this.user.get('Role').value));
-  const info = await this.Contract.methods.revokeRole(this.userAddress);
+  const info = await this.Contract.methods.revokeRole(this.userAddress).send({from:this.Adminaddress});
   console.log(info);
+}
+public async rerole(){
+  const reassign = await this.Contract.methods.reassignRole(this.userAddress,this.userRole).send({from:this.Adminaddress});
+  console.log(reassign);
 }
 resetUser(){
   this.userAddress="";
