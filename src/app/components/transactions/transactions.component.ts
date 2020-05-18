@@ -10,6 +10,7 @@ export class TransactionsComponent implements OnInit {
   web3: any;
   sender:any;
   receiver:any;
+  Roles = ["NoRole","Supplier", "Transporter", "Manufacturer","Wholesaler","Distributer", "Retail Store"];
   value:any;
   Contract: any;
   AdminAddress: string;
@@ -18,17 +19,24 @@ export class TransactionsComponent implements OnInit {
   userName: any;
   userRole: any;
   userLocation: any;
+  senderDetails: Promise<{ Name: any; Location: any; EthAddress: any; Role: any; }>;
+  receiverDetails: Promise<{ Name: any; Location: any; EthAddress: any; Role: any; }>;
+  senderBalance: any;
+  senderName: any;
+  senderLocation: any;
+  senderRole: any;
+  recBalance: any;
+  recName: any;
+  recLocation: any;
+  recRole: any;
+  recpressed: boolean;
+  senderpressed: boolean;
 
   constructor(private ethcontractService: EthcontractService) { }
 
   async ngOnInit(){
     this.web3 = await this.ethcontractService.getWeb3();
     this.Contract = await this.InitContract();
-    this.AdminAddress = "0xd3832DD17DB191d545cFB829A796d8Ec87245172";
-    this.Contract.options.from = this.AdminAddress;
-    this.getuserDetails();
-    this.sender = this.userAddress;
-
   }
   public async InitContract(){
     const contract = await this.ethcontractService.getContract();
@@ -36,10 +44,8 @@ export class TransactionsComponent implements OnInit {
     // console.log('getting out of InitContract');
     return contract
   }
-  public async getuserDetails() {
-    var accounts = await this.web3.eth.getAccounts();
-    // console.log(accounts);
-    this.userAddress =accounts[0];
+  public async getuserDetails(address) {
+    this.userAddress =address;
     const info = await this.Contract.methods.getUserInfo(this.userAddress).call();
     var jsonres = {
         "Name": this.web3.utils.toAscii(info[0].replace(/0+\b/, "")),
@@ -47,20 +53,36 @@ export class TransactionsComponent implements OnInit {
         "EthAddress": info[2],
         "Role": JSON.parse(info[3])
       }
-    const balwei = await this.web3.eth.getBalance(this.userAddress);
-    this.userBalance = await this.web3.utils.fromWei(balwei, "ether");
-    this.userName = jsonres.Name;
-    this.userLocation = jsonres.Location;
-    this.userRole = jsonres.Role;
-    console.log('user details obtained');  
+     
+    return jsonres;
   }
   public async transact(){
-    this.value = this.web3.utils.toWei(this.value,"ether");
-    console.log(this.receiver);
-    console.log(this.web3);
-    const rc  = this.receiver.toString();
-    const val = this.web3.utils.toBN(this.value);
-    this.web3.eth.sendTransaction().send({from: '0x7E6881E7B8545CAaA7457bDB8AC77F5e1b16BCeC',to: '0xd3832DD17DB191d545cFB829A796d8Ec87245172',value:'1000000000000000'});
+    const val = await this.web3.utils.toWei(this.value,"ether");
+    console.log(this.senderDetails);
+    console.log(this.receiverDetails);
+    const transaction = await this.web3.eth.sendTransaction({from: this.sender,to: this.receiver,value: val});
+    console.log(transaction);
+  }
+
+  public async getSenderDetails(){
+    const senderDet = await this.getuserDetails(this.sender)
+    const balwei = await this.web3.eth.getBalance(this.sender);
+    this.senderBalance = await this.web3.utils.fromWei(balwei, "ether");
+    this.senderName = senderDet.Name;
+    this.senderLocation = senderDet.Location;
+    this.senderRole = this.Roles[senderDet.Role];
+    this.senderpressed = true;
+    console.log('user details obtained'); 
+  }
+  public async getRecDetails(){
+    this.recpressed = true;
+    const recDet = await this.getuserDetails(this.receiver)
+    const balweir = await this.web3.eth.getBalance(this.receiver);
+    this.recBalance = await this.web3.utils.fromWei(balweir, "ether");
+    this.recName = recDet.Name;
+    this.recLocation = recDet.Location;
+    this.recRole = this.Roles[recDet.Role];
+    console.log('user details obtained');
   }
 
 }

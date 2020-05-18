@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EthcontractService } from 'src/app/ethcontract.service';
-
+import * as Madicine from 'src/app/components/Contracts/Madicine.json';
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
@@ -19,10 +19,12 @@ export class StoreComponent implements OnInit {
   conID: any;
   prodID: any;
   ustatus: any;
+  manuAddress:any;
   status: any;
   uprodID: any;
   bCount: any;
   gtin: any;
+  prods = [];
   saleStatus = {
     0: "is not found",
     1: "is at Retail Store",
@@ -34,14 +36,15 @@ export class StoreComponent implements OnInit {
   IDs=[];
   tablepressed: boolean;
   batchidpressed: boolean;
+  gtinpressed: boolean;
+  prodContract: any;
+  csv: any;
 
   constructor(private ethcontractService: EthcontractService) { }
 
   async ngOnInit(){
     this.web3 = await this.ethcontractService.getWeb3();
     this.Contract = await this.InitContract();
-    this.AdminAddress = "0xd3832DD17DB191d545cFB829A796d8Ec87245172";
-    this.Contract.options.from = this.AdminAddress;
     this.getStoreDetails();
   }
   public async InitContract(){
@@ -74,6 +77,8 @@ export class StoreComponent implements OnInit {
     console.log('Package received');
   }
   public async updateStatus(){
+    console.log('In update status');
+    console.log(this.ustatus);
     const status = await this.Contract.methods.updateSaleStatus(this.uprodID,this.ustatus).send({from:this.storeAddress});
     console.log('prod status');
     console.log(status);
@@ -89,19 +94,41 @@ export class StoreComponent implements OnInit {
     console.log(this.bCount);
   }
   public async getBatches(){
-    this.batchidpressed = true;
+    this.gtinpressed = true;
       let i: number;
       let from = 0;
       let to = await this.Contract.methods.getBatchesCountP().call({from:this.storeAddress});
       for (i = from; i < to; i++) {
         const batch = await this.Contract.methods.getBatchIdByIndexP(i).call({from:this.storeAddress});
-        this.IDs.push(batch);
         console.log(batch);
+        const stno = await this.Contract.methods.salesInfo(batch).call({from:this.storeAddress});
+        const status = 'Product ' + this.saleStatus[stno];
+        this.IDs['Batch'] = batch;
+        this.IDs['Status'] = status;
 
+        this.prodContract = new this.web3.eth.Contract(Madicine.abi,batch, {
+          from: this.manuAddress});
+        const result = await this.prodContract.methods.getMadicineInfo().call({from: this.manuAddress});
+        result['Des'] = this.web3.utils.toAscii(result['Des'].replace(/0+\b/, ""));
+        result['Quant'] = this.web3.utils.toAscii(result['Quant'].replace(/0+\b/, ""));
+        this.IDs['Product'] = result['Des'];
+        this.IDs['Time'] = result['Quant'];
+          
+        this.prods.push(this.IDs);
       }
+      console.log(this.prods);
   }
   resetIDs(){
-    this.IDs = [];
+    this.prods = [];
   }
+
+  sold(){this.ustatus = 2;
+    console.log(this.ustatus);}
+
+  damaged(){this.ustatus = 4;
+  console.log(this.ustatus);}
+  
+  expired(){ this.ustatus = 3;
+    console.log(this.ustatus);}
 
 }

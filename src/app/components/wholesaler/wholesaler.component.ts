@@ -51,14 +51,13 @@ export class WholesalerComponent implements OnInit {
   concount: any;
   pUID: any;
   conID: any;
+  tabidpressed: boolean;
 
   constructor(private ethcontractService: EthcontractService) { }
 
   async ngOnInit(){
     this.web3 = await this.ethcontractService.getWeb3();
     this.Contract = await this.InitContract();
-    this.AdminAddress = "0xd3832DD17DB191d545cFB829A796d8Ec87245172";
-    this.Contract.options.from = this.AdminAddress;
     this.getWholesalerDetails(); 
   }
   public async InitContract(){
@@ -122,8 +121,7 @@ export class WholesalerComponent implements OnInit {
     let to = await this.Contract.methods.getBatchesCountWD().call({from:this.wholeAddress});
     for (i = from; i < to; i++) {
       const batchId = await this.Contract.methods.getBatchIdByIndexWD(i).call({from: this.wholeAddress});
-      console.log(batchId);
-      this.IDs.push(batchId)
+      this.IDs.push(batchId);
   }
   }
 
@@ -134,6 +132,9 @@ export class WholesalerComponent implements OnInit {
   public async getCid(){
     this.cidPressed = true;
     this.cid  = await this.Contract.methods.getSubContractWD(this.productid).call({from:this.wholeAddress});
+    if(this.cid == '0x0000000000000000000000000000000000000000'){
+      this.cid = 'No Consignment Number assigned yet!'
+    }
     console.log('cid');
     console.log(this.cid);
   }

@@ -1,5 +1,5 @@
-<div class="hero-head">
-    <nav class="navbar">
+<!-- <div class="hero-head">
+    <nav class="navbar is-warning">
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item">
@@ -28,4 +28,38 @@
         </div>
       </div>
     </nav>
-  </div>
+  </div> -->
+
+
+  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="https://whitman.syr.edu/images/programs-and-departments/programs/exec-education/IntroSupplyChain.png" alt="Logo">
+      </a>
+  
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        
+        <div class="navbar-item">
+            <a class="button is-danger lead" style="color: white;font-weight: bold;" routerLink="/home">
+                Home
+            </a>
+        </div>
+      </div>
+  
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <a class="button is-warning lead" style="color:brown;font-weight: bold;" routerLink="/transactions">
+            Payments
+        </a>
+        </div>
+      </div>
+    </div>
+  </nav>

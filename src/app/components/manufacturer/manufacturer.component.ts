@@ -27,13 +27,13 @@ export class ManufacturerComponent implements OnInit {
     2: "received by manufacturer"
   };
   prodStatus = {
-    0: "at Manufacturer",
-    1: "picked from manufacturer",
-    2: "picked for distributer",    
+    0: "At Manufacturer",
+    1: "Picked from manufacturer",
+    2: "Picked for distributer",    
     3: "Product delivered to wholesaler",
     4: "received by distributer",
-    5: "picked4P",
-    6: "deliveredatP"
+    5: "picked for Retail Store",
+    6: "delivered to Retail Store"
   }
   packageID: any;
   supplierAddress: any;
@@ -55,8 +55,8 @@ export class ManufacturerComponent implements OnInit {
     this.form = new FormGroup({
       TAddress : new FormControl(),
       WAddress: new FormControl(),
-      rawmat : new FormControl(),
       numUnits : new FormControl(),
+      rawmat : new FormControl(),
       prodDes : new FormControl()
       });
    }
@@ -65,8 +65,6 @@ export class ManufacturerComponent implements OnInit {
   this.web3 = await this.ethcontractService.getWeb3();
 
   this.Contract = await this.InitContract();
-  this.AdminAddress = "0xd3832DD17DB191d545cFB829A796d8Ec87245172";
-  this.Contract.options.from = this.AdminAddress;
   this.getManufacturerDetails(); 
   }
 
@@ -128,7 +126,15 @@ export class ManufacturerComponent implements OnInit {
       console.log(this.Contract);
       const des = this.web3.utils.fromAscii(this.form.get('prodDes').value);
       const rm = this.web3.utils.fromAscii(this.form.get('rawmat').value);
-      const packinfo = await this.Contract.methods.manufacturMadicine(des,rm,this.form.get('numUnits').value,this.form.get('TAddress').value,this.form.get('WAddress').value,1).send({from : this.manuAddress});
+      var currentdate = new Date();
+      // var date  = currentdate.getDate();
+      // var month = currentdate.getMonth();
+      // var year = currentdate.getFullYear();
+      // var dat = date + "-" + (month+1) + "-"+ year;
+      var dt = this.web3.utils.fromAscii(currentdate.toDateString()+" ");
+      console.log(typeof rm)
+      console.log(typeof dt)
+      const packinfo = await this.Contract.methods.manufacturMadicine(des,rm,dt,this.form.get('TAddress').value,this.form.get('WAddress').value,1).send({from : this.manuAddress});
       console.log('Created package info');
       console.log(packinfo);
     }
@@ -178,6 +184,7 @@ export class ManufacturerComponent implements OnInit {
         const adds = await this.prodContract.methods.getWDP().call({from: this.manuAddress});
         result['Des'] = this.web3.utils.toAscii(result['Des'].replace(/0+\b/, ""));
         result['RM'] = this.web3.utils.toAscii(result['RM'].replace(/0+\b/, ""));
+        result['Quant'] = this.web3.utils.toAscii(result['Quant'].replace(/0+\b/, ""));
         result['pid'] = prodId;
         result['Status'] = this.prodStatus[statusNo];
         result['WAddress'] = adds[0];

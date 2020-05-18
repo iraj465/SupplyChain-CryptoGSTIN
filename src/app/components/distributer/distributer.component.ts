@@ -24,6 +24,9 @@ export class DistributerComponent implements OnInit {
   cidPressed: boolean;
   cid: any;
   productid: any;
+  bcntPressed: boolean;
+  batches = [];
+  tablepressed: boolean;
   constructor(private ethcontractService: EthcontractService) { }
 
   async ngOnInit(){
@@ -70,25 +73,32 @@ export class DistributerComponent implements OnInit {
     console.log(transfer);
   }
   public async batchCount(){
+    this.bcntPressed = true;
     this.bCount = await this.Contract.methods.getBatchesCountDP().call({from:this.retaAddress});
     console.log('batch count');
     console.log(this.bCount);
-    this.getBatches();
+
   }
   public async getBatches(){
-    // this.tablepressed = true;
+      this.tablepressed = true;
       let i: number;
       let from = 0;
       let to = this.bCount;
       for (i = from; i < to; i++) {
         const batch = await this.Contract.methods.getBatchIdByIndexDP(i).call({from:this.retaAddress});
+        this.batches.push(batch);
         console.log(batch);
-
       }
-}
+  }
+  reset(){
+    this.batches = [];
+  }
 public async getCid(){
   this.cidPressed = true;
   this.cid  = await this.Contract.methods.getSubContractDP(this.productid).call({from:this.retaAddress});
+  if(this.cid == '0x0000000000000000000000000000000000000000'){
+    this.cid = 'No Consignment Number assigned yet!'
+  }
   console.log('cid');
   console.log(this.cid);
 }

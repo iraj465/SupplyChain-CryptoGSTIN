@@ -42,7 +42,8 @@ import { TransactionsComponent } from './components/transactions/transactions.co
     AppRoutingModule,
     AppMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppMaterialModule
   ],
   providers: [EthcontractService],
   bootstrap: [AppComponent]

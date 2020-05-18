@@ -1,16 +1,36 @@
-<h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Supplier Page</b></h4>
+<!-- <h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Supplier Page</b></h4> -->
+<article class="tile is-child is- 2by2 notification is-danger">
+  <p class="lead" style="font-size: xx-large;">Welcome back,{{supplierName}}</p>
+  <!-- <p class="subtitle"></p> -->
+</article>
+<br>
 <article class="tile is-child notification is-warning">
   <div class="has-text-left-desktop">
-    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierName}}</li>
+    <!-- <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierName}}</li> -->
     <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierLocation}}</li>
     <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{supplierAddress}}</li>
     <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierBalance}} ETH</li>
   </div> 
 </article>
 <br>
+
+<article class="tile is-child notification is-warning">
+  <div class="control">
+    <button class="button lead is-danger" (click)="getpackageCount()">Number of Raw Material Packages</button>
+  </div>
+  <p class="lead" style="color: brown;font-size: xx-large;font-weight: bold;">{{packageCount}}</p>
+</article>
+
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="font-size: xx-large;">Create Raw materials Package</p>
+  </article>
+</div>
 <br>
 
-<h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>Create Raw materials package </b></h4><form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- <h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>Create Raw materials package </b></h4> -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
       <label class="label">To Manufacturer (ETH Address)</label>
       <div class="control">
@@ -57,40 +77,53 @@
     
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-link">Submit</button>
+        <button class="button lead is-link">Submit</button>
       </div>
       <div class="control">
-        <button class="button is-link is-light">Cancel</button>
+        <button class="button lead is-link is-light">Cancel</button>
       </div>
     </div>
+          <!-- Success alert  -->
+          <div class="row"  *ngIf="showMsg">
+            <div class="col-xs-12">
+              <p class="lead alert alert-success" style="font-size: xx-large;font-weight: 400;">
+                Success!
+              </p>
+            </div>
+          </div>
   </form>
 <br>
-
-
-<div class="field is-grouped">
-  <div >
-    <input class="input is-success" type="text" placeholder="Enter Package ID " [(ngModel)]="packageID">
-  </div>
-  <div class="control">
-    <button class="button is-danger" (click)=" getrawMaterialStatus()">Get Status</button>
-    <p *ngIf="matstat" style="color: brown;font-size:x-large;font-weight: 600;">{{getStatus}} </p>
-  </div>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="font-size: xx-large;">Get Raw materials Package Status</p>
+  </article>
 </div>
 
 
-<div class="field is-grouped">
-  <div class="control">
-    <button class="button is-primary" (click)="getpackageCount()">Get List of Packages</button>
+
+  <div >
+    <input class="input is-success" type="text" placeholder="Enter Package UID " [(ngModel)]="packageID">
   </div>
   <div class="control">
-    <button class="button is-danger" (click)="resetpackages()">Reset</button>
+    <button class="button lead is-danger" (click)=" getrawMaterialStatus()">Get Status</button>
+    <p *ngIf="matstat" style="color: brown;font-size:x-large;font-weight: 600;">{{getStatus}} </p>
+  </div>
+
+<br>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button lead is-primary" (click)="getPackageInfo()">Get list of all Raw material Packages</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="resetpackages()">Reset</button>
   </div>
 </div>
 
   
 <div *ngIf="tablepressed">
   <table class="table table-hover table-responsive">
-    <thead>
+    <thead class="thead-dark">
       <tr>
         <th scope="col">Description</th>
         <th scope="col">Timestamp</th>
@@ -99,7 +132,7 @@
         <th scope="col">Manufacturer Address</th>      
         <th scope="col">Transporter Address</th>      
         <th scope="col">Supplier Address</th>      
-        <th scope="col">Package Status</th>  
+        <th scope="col">Status</th>  
         <th scope="col">Package UID</th>    
       </tr>
     </thead>

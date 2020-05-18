@@ -27,13 +27,13 @@ export class TransporterComponent implements OnInit {
     2: "delivered to manufacturer"
   }
   prodStatus = {
-    0: "at Manufacturer!",
+    0: "at Manufacturer",
     1: "picked for Wholesaler",
-    2: "picked for Retailer",    
-    3: "deliveredatW",
-    4: "deliveredatD",
-    5: "picked for Store",
-    6: "delivered at Store"
+    2: "picked for Distributer",    
+    3: "delivered to Wholesaler",
+    4: "delivered to Distributer",
+    5: "picked for Retail Store",
+    6: "delivered at Retail Store"
   }
   matstat: boolean;
   getStatus: any;
@@ -47,6 +47,8 @@ export class TransporterComponent implements OnInit {
   matstattwo: boolean;
   pUID: any;
   conID: any;
+  con2ID: any;
+  p2UID: any;
   constructor(private ethcontractService: EthcontractService) {
      }
 
@@ -54,8 +56,6 @@ export class TransporterComponent implements OnInit {
     this.web3 = await this.ethcontractService.getWeb3();
 
     this.Contract = await this.InitContract();
-    this.AdminAddress = "0xd3832DD17DB191d545cFB829A796d8Ec87245172";
-    this.Contract.options.from = this.AdminAddress;
     this.getTransporterDetails();
   }
 
@@ -84,6 +84,8 @@ export class TransporterComponent implements OnInit {
     this.transLocation = jsonres.Location;
     this.userRole = jsonres.Role;
     console.log('user details obtained');
+    console.log(this.transAddress);
+    console.log(this.transName);
   }
 
 
@@ -93,6 +95,7 @@ export class TransporterComponent implements OnInit {
   //create new intsance of RawMaterials contract for corresponding batchId
     this.rawMatContract = new this.web3.eth.Contract(RawMaterials.abi,this.packageID, {
     from: this.supplierAddress});
+    console.log(this.rawMatContract);
 
     //find status of package
     let statusNo = await this.rawMatContract.methods.getRawMatrialsStatus().call();
@@ -120,18 +123,13 @@ export class TransporterComponent implements OnInit {
     public async pickpackageMW(){
       this.prodContract = new this.web3.eth.Contract(Madicine.abi,this.prodID,{from:this.manuAddress});
       const pick = await this.prodContract.methods.pickPackage(this.transAddress).send({from : this.transAddress});
-      console.log('Manu to WHole');
       console.log(pick);
-
       }
       public async getrawMaterialStatusTwo(){
         this.matstattwo = true;
         this.prodContract = new this.web3.eth.Contract(Madicine.abi,this.prodId,{from:this.manuAddress});
-        console.log('1');
         console.log(this.prodContract);
         const statno = await this.prodContract.methods.getBatchIDStatus().call({from:this.manuAddress});
-        console.log('2');
-        console.log(statno);
         this.getStatus = 'Package ' + this.prodStatus[statno] +' !';
         console.log(this.getStatus);
       }
@@ -144,7 +142,7 @@ export class TransporterComponent implements OnInit {
       }
             // Distributer to Store
       public async pickPackageDR(){
-        const load = await this.Contract.methods.loadConsingment(this.pUID,4,this.conID).send({from:this.transAddress});
+        const load = await this.Contract.methods.loadConsingment(this.p2UID,4,this.con2ID).send({from:this.transAddress});
         console.log('load');
         console.log(load);
       }

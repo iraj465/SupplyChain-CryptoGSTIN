@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, } from '@angular/core';
 import { EthcontractService } from '../../ethcontract.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { FormBuilder, Validators, FormControl, NgSelectOption, FormGroup } from '@angular/forms';
 import { Admin } from './admin.model';
 @Component({
@@ -42,11 +42,11 @@ export class AdminComponent implements OnInit {
   accounts: any;
   Adminaddress: any;
   userRole: any;
+  AdminbalanceETH: any;
+  showMsg: any;
   constructor(
-    private modalService: NgbModal,
-    private router: Router,
     private ethcontractService: EthcontractService,
-    private fb: FormBuilder
+    public dialog: MatDialog
   ) 
   {
     this.user = new FormGroup({
@@ -55,9 +55,8 @@ export class AdminComponent implements OnInit {
       Location : new FormControl(),
       Role : new FormControl()
     });
+    
   }
-
-
   public async InitContract(){
     const contract = await this.ethcontractService.getContract();
     // console.log('Inside InitContract');
@@ -84,8 +83,8 @@ export class AdminComponent implements OnInit {
   public async getAdminInfo(){
     this.Adminaddress = await this.Contract.methods.Owner().call();
     const balanceWei = await this.web3.eth.getBalance(this.Adminaddress);
-    const balanceETH = await this.web3.utils.fromWei(balanceWei, "ether");    
-    this.admin = new Admin(this.Adminaddress,balanceETH);
+    this.AdminbalanceETH = await this.web3.utils.fromWei(balanceWei, "ether");    
+    this.admin = new Admin(this.Adminaddress,this.AdminbalanceETH);
     console.log(this.admin);
   }
 
@@ -102,6 +101,10 @@ export class AdminComponent implements OnInit {
   onSubmit(){
     console.log(this.user.value);
     this.regUser();
+    this.showMsg = true;
+  }
+  cancel(){
+    this.showMsg = false;
   }
   
   public async getUsersCount(){
@@ -113,8 +116,8 @@ export class AdminComponent implements OnInit {
   public async getUsersInfo(){
     const info = await this.Contract.methods.getUserInfo(this.userAddress).call();
     console.log(info);
-    this.userinfoName = info.name;
-    this.userinfoLocation = info.location;
+    this.userinfoName = this.web3.utils.toAscii(info.name.replace(/0+\b/, ""));
+    this.userinfoLocation = this.web3.utils.toAscii(info.location.replace(/0+\b/, ""));
     this.userinfoRole = this.Roles[info.role];
     this.userinfoButtonPressed = true;
   }
@@ -127,7 +130,7 @@ export class AdminComponent implements OnInit {
   console.log(info);
 }
 public async rerole(){
-  const reassign = await this.Contract.methods.reassignRole(this.userAddress,this.userRole).send({from:this.Adminaddress});
+  const reassign = await this.Contract.methods.reassignRole(this.userAddress,this.Roles.indexOf(this.userRole)).send({from:this.Adminaddress});
   console.log(reassign);
 }
 resetUser(){
