@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "suppplychainui",
+      "public": "dist/suppplychainui",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
