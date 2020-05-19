@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "bit-chain": {
+      "hosting": {
+        "suppplychainui": [
+          "bit-chain"
+        ]
+      }
+    }
+  }
+}

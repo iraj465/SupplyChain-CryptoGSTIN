@@ -67,10 +67,10 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/supplier',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
-  { path: '**', redirectTo: '/supplier' }
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
