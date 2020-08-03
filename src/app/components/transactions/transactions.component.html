@@ -1,0 +1,66 @@
+<article class="tile is-child notification is-danger is-bold">
+  <div class="has-text-centered">
+    <p class="lead" style="color: white; font-size: xx-large;">BitChain Payments<p>
+  </div>
+  <div class="has-text-centered">
+    <p class="lead" style="color: white; font-size: x-large;">Payments made faster and more secure with crypto payments<p>
+  </div>
+</article>
+<br>
+<br><article class="tile is-child notification is-dark is-bold">
+  <p class="lead" style="color: white;font-size: xx-large;">Sender (ETH Address)</p>
+  <input class="input is-success" type="text" placeholder="Enter Sender ETH Address" [(ngModel)]="sender">
+</article>
+<br>
+<button class="button lead is-danger" (click)="getSenderDetails()">Get Details</button>
+<br>
+<br>
+  <article *ngIf="senderpressed" class="tile is-child notification is-warning">
+    <div class="has-text-left-desktop">
+      <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{senderName}}</li>
+      <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{senderLocation}}</li>
+      <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Role</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{senderRole}}</li>
+      <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{senderBalance}} ETH</li>
+    </div> 
+  </article>
+
+  <br>
+
+<article class="tile is-child notification is-dark is-bold">
+  <p class="lead" style="color: white;font-size: xx-large;">Receiver (ETH Address)</p>
+  <input class="input is-success" type="text" placeholder="Enter Receiver ETH Address" [(ngModel)]="receiver">
+</article>
+
+<br>
+<button class="button lead is-danger" (click)="getRecDetails()">Get Details</button>
+<br>
+<br>
+
+<article *ngIf="recpressed" class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color:white;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{recName}}</li>
+    <h4 style="color:white;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{recLocation}}</li>
+    <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Role</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{recRole}}</li>
+    <h4 style="color: white;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{recBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+
+
+ 
+  <article class="tile is-child notification is-dark is-bold">
+    <p class="lead" style="color: white;font-size: xx-large;">Transaction Value (in ETH)</p>
+    <input class="input is-success" type="text" placeholder="Enter amount to be paid in Ether" [(ngModel)]="value">
+  </article>
+<br>
+<br>
+<br>
+  <div class="content has-text-centered">
+    <button class="button lead is-warning is-large" style="color:black;font-size: bolder;" (click)="transact()">Pay</button>
+  </div>  
+
+
+  
+
+  
+

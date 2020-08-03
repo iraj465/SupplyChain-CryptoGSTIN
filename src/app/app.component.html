@@ -8,21 +8,13 @@
 </nav>
 
 <section class="pagemaintain"> -->
-  <div id="wrapper">
   <app-header></app-header>
-    <div>
-            <router-outlet></router-outlet>
+  <section class="hero is-medium is-light">
+    <div class="hero-body ">
+      <div class="container is-fluid">
+              <router-outlet></router-outlet>
+      </div>
     </div>
-    <app-footer></app-footer>
-</div>
-<!-- </section>
-footer
-<footer class="footer">
-    <div class="container">
-        <div class="content has-text-centered">
-            <p>
-                Made with <img src="../assets/img/478533.svg" style="width: 30px;"> by <a href="https://github.com/kamalkishorm">Kamal Kishor Mehra</a>
-            </p>
-        </div>
-    </div>
-</footer>    -->
+  
+  <app-footer></app-footer>
+</section>

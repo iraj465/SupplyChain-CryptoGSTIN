@@ -1,1 +1,156 @@
-<p>supplier works!</p>
+<!-- <h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Supplier Page</b></h4> -->
+<article class="tile is-child is- 2by2 notification is-danger">
+  <p class="lead" style="font-size: xx-large;">Welcome back,{{supplierName}}</p>
+  <!-- <p class="subtitle"></p> -->
+</article>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <!-- <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierName}}</li> -->
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{supplierAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{supplierBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+
+<article class="tile is-child notification is-warning">
+  <div class="control">
+    <button class="button lead is-danger" (click)="getpackageCount()">Number of Raw Material Packages</button>
+  </div>
+  <p class="lead" style="color: brown;font-size: xx-large;font-weight: bold;">{{packageCount}}</p>
+</article>
+
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="font-size: xx-large;">Create Raw materials Package</p>
+  </article>
+</div>
+<br>
+
+<!-- <h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>Create Raw materials package </b></h4> -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label class="label">To Manufacturer (ETH Address)</label>
+      <div class="control">
+        <input class="input is-success" type="text" placeholder="Enter Manufacturer Ethereum Address" formControlName="MAddress">
+      </div>
+    </div>
+    <div class="field">
+        <label class="label">By Transporter (ETH Address)</label>
+        <div class="control">
+          <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+        </div>
+      </div>
+    
+    <div class="field">
+      <label class="label">Number of units</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-danger" type="text" placeholder="Enter number of units of the raw material in package" formControlName="numUnits">
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Description of Raw materials</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-success" type="email" placeholder="Describe the raw materials in package" formControlName="rawMatDes">
+      </div>
+    </div>
+    
+    <div class="field">
+        <label class="label">Farm Location</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-danger" type="email" placeholder="Enter Farm Location" formControlName="farmLoc">
+        </div>
+      </div>
+      
+    
+    <!-- <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox">
+          I agree to the <a href="#">terms and conditions</a>
+        </label>
+      </div>
+    </div> -->
+    
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button lead is-link">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button lead is-link is-light">Cancel</button>
+      </div>
+    </div>
+          <!-- Success alert  -->
+          <div class="row"  *ngIf="showMsg">
+            <div class="col-xs-12">
+              <p class="lead alert alert-success" style="font-size: xx-large;font-weight: 400;">
+                Success!
+              </p>
+            </div>
+          </div>
+  </form>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="font-size: xx-large;">Get Raw materials Package Status</p>
+  </article>
+</div>
+
+
+
+  <div >
+    <input class="input is-success" type="text" placeholder="Enter Package UID " [(ngModel)]="packageID">
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)=" getrawMaterialStatus()">Get Status</button>
+    <p *ngIf="matstat" style="color: brown;font-size:x-large;font-weight: 600;">{{getStatus}} </p>
+  </div>
+
+<br>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button lead is-primary" (click)="getPackageInfo()">Get list of all Raw material Packages</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="resetpackages()">Reset</button>
+  </div>
+</div>
+
+  
+<div *ngIf="tablepressed">
+  <table class="table table-hover table-responsive">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Description</th>
+        <th scope="col">Timestamp</th>
+        <th scope="col">Location</th>
+        <th scope="col">Quantity</th>      
+        <th scope="col">Manufacturer Address</th>      
+        <th scope="col">Transporter Address</th>      
+        <th scope="col">Supplier Address</th>      
+        <th scope="col">Status</th>  
+        <th scope="col">Package UID</th>    
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let package of packages">
+        <td>{{package.Des}}</td>
+        <td>{{package.FN}}</td>
+        <td>{{package.Loc}}</td>
+        <td>{{package.Quant}}</td>
+        <td>{{package.Rcvr}}</td>
+        <td>{{package.Shpr}}</td>
+        <td>{{package.Splr}}</td>
+        <td>{{package.Status}}</td>
+        <td>{{package.pid}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+  
+  

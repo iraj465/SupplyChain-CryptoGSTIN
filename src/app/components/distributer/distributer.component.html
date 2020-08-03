@@ -1,0 +1,93 @@
+<article class="tile is-child is- 2by2 notification is-danger">
+  <p class="lead" style="font-size: xx-large;">Welcome back,{{retaName}}</p>
+  <!-- <p class="subtitle"></p> -->
+</article>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="font-size: xx-large;">Receive Product Consignment</p>
+    <h2 class="lead" style="font-size: x-large;">
+      Wholesaler to Distributer
+    </h2>
+  </article>
+</div>
+<div class="field">
+  <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter Product B-GTIN" [(ngModel)]="pUID">
+</div> 
+<div class="field">
+  <label class="label">Consignment(C1) UID</label>
+  <input class="input is-success" type="text" placeholder="Enter consignment UID" [(ngModel)]="conID">
+</div> 
+<div class="field">
+  <button class="button lead is-danger" (click)="receivePackage()">Receive</button>
+</div>
+
+<br>
+<article class="tile is-child notification is-warning">
+  <p class="title">Get Retail Consignment Number(C2)</p>
+  <div class="has-text-left-desktop">
+    <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Product ID" [(ngModel)]="productid">
+    <br>
+    <button (click)="getCid()" class="button lead is-danger is-8">Get Consignment Number</button> 
+    <h5 *ngIf="cidPressed" style="color: brown;font-size: x-large;font-weight: 800;padding-left: 2rem;">{{cid}}</h5>            
+  </div> 
+</article>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="color: white;font-size: xx-large;">Transfer Product</p>
+    <h2 class="lead" style="color: white;font-size: x-large;">
+      Distributer to Retail Store
+    </h2>
+  </article>
+</div>
+<div class="field">
+  <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter Product B-GTIN" [(ngModel)]="bID">
+</div> 
+<div class="field">
+  <label class="label">By Transporter (ETH Address)</label>
+  <input class="input is-success" type="text" placeholder="Enter Transporter Address" [(ngModel)]="transAddress">
+</div>
+<div class="field">
+  <label class="label">To Retail Store (ETH Address)</label>
+  <input class="input is-success" type="text" placeholder="Enter Retail store Address" [(ngModel)]="storeAddress">
+</div>  
+<div class="field">
+  <button class="button lead is-danger" (click)="toStore()">Create Consignment</button>
+</div>
+<br>
+
+<article class="tile is-child notification is-warning">
+  <div class="field">
+    <button class="button lead is-danger" (click)="batchCount()">Number of Consignments(C2)</button>
+  </div>
+  <h5 *ngIf="bcntPressed" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{bCount}}</h5>         
+</article>
+   
+
+<br>
+<div class="field is-grouped">
+  <div class="control">
+    <button (click)="getBatches()" class="button lead is-primary is-8">Get all Consignments</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="reset()">Reset</button>
+  </div>
+</div>
+<div *ngIf="tablepressed">
+  <ul *ngFor="let batch of batches">
+    <li style="color: brown;font-size: larger;font-weight: 600;">{{batch}}</li>
+  </ul>
+</div>

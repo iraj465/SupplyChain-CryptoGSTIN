@@ -1,8 +1,216 @@
-<h4>Account</h4>
-<div>
-    <li>{{AdminAccount}}</li>
+<div class="tile is-ancestor">
+    <div class="tile is-vertical is-12">
+
+      <!-- left part  -->
+      <div class="tile">
+        <div class="tile is-parent is-vertical">
+          <article class="tile is-child is- 2by2 notification is-primary">
+            <p class="lead" style="font-size: xx-large;font-weight:500;">Welcome back,Admin</p>
+            <!-- <p class="subtitle"></p> -->
+          </article>
+          <article class="tile is-child notification is-warning">
+              <div class="has-text-left-desktop">
+                <h4 class="lead" style="color: brown;font-size: larger;font-weight: 600;"><b>ETH Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;"> {{Adminaddress}}</li>
+                <h4 class="lead" style="color: brown;font-size: larger;font-weight: 600;"><b>Balance</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{AdminbalanceETH}} ETH</li>
+              </div> 
+          </article>
+          <!-- users count tab follows -->
+          <article class="tile is-child notification is-warning">
+            <div class="has-text-left-desktop">
+              <button (click)="getUsersCount()" class="button lead is-danger is-8">Number of Registered users</button> 
+              <h5 *ngIf="userCountPressed" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{userCount}}</h5>            
+            </div> 
+        </article>
+        </div>
+        <!-- users info tile follows -->
+        <div class="tile is-parent is-6">
+          <article class="tile is-child notification is-info">
+            <p class="lead" style="font-size: xx-large;">Registered User Information</p>
+            <br>
+            <div class="control">
+              <label class="label">ETH Address</label>
+              <input class="input is-success" type="text" placeholder="Enter Ethereum Address " [(ngModel)]="userAddress">
+            </div>
+            <br>
+            <div class="control">
+              <label class="label">New Role</label>
+              <input class="input is-success" type="text" placeholder="Enter New Role " [(ngModel)]="userRole">
+            </div>
+            <div class="row">
+              <div class="column">
+                <button (click)="getUsersInfo()" class="button lead is-primary is-6">Get</button>
+              </div>
+              <div class="column">
+                <button (click)="revokeUserRole()" class="button lead is-primary is-6">Revoke Role</button>
+              </div>
+              <div class="column">
+                <button class="button lead is-primary is-6" (click)="rerole()">Reassign Role</button>
+              </div>
+              <div class="column">
+                <button (click)="resetUser()" class="button lead is-danger is-6">Reset</button>
+              </div>
+            </div>
+            <div *ngIf="userinfoButtonPressed">
+              <label class="label">Full Name</label>
+              <p>{{userinfoName}}</p>
+              <label class="label">Location</label>
+              <p>{{userinfoLocation}}</p>
+              <label class="label">Role</label>
+              <p>{{userinfoRole}}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- actions tile -->
+      <div class="tile is-parent is-12">
+        <article class="tile is-child notification is-danger">
+          <div class="row">
+            <div class="column">
+              <p class="lead" style="color: white;font-size: xx-large;">Actions :</p>
+            </div>
+            <div class="column">
+              <p class="lead" style="color: white;font-size: xx-large;">Register User</p>
+            </div>
+            <div class="column">
+              <p class="lead" style="color: white;font-size: xx-large;">Revoke Role</p>
+            </div>
+            <div class="column">
+              <p class="lead" style="color: white;font-size: xx-large;">Reassign Role</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  
+  <br>
+
+  <!-- Register user banner -->
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="lead" style="color: white;font-size: xx-large;">Register Users</p>
+      <h2 class="lead">
+        Intermediaries for Supply Chain
+      </h2>
+    </article>
+  </div>
+
+<br>
+  <!-- new start -->
+<div class="container is-fluid">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label class="label">User ETH Address</label>
+      <div class="control">
+        <input class="input is-success" required type="text" placeholder="Enter Ethereum Address" formControlName="Address">
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-danger" type="text" placeholder="Enter Full Name"  formControlName="Name">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Location</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-success" type="email" placeholder="Enter Location" formControlName="Location">
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Role</label>
+      <div class="control">
+        <div class="select">
+          <input class="input is-danger" type="email" placeholder="Enter desired Role" formControlName="Role">
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox">
+          I agree to the <a href="#">terms and conditions</a>
+        </label>
+      </div>
+    </div> -->
+    
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button is-link is-light" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+          <!-- Success alert  -->
+    <!-- <div class="row"  *ngIf="showMsg">
+      <div class="col-xs-12">
+        <p class="lead alert alert-success" style="font-size: xx-large;font-weight: 700;">
+          Registration Success!
+        </p>
+      </div>
+    </div> -->
+
+  </form>
 </div>
-<h4>Balance</h4>
-<div>
-    <li>{{balance}}</li>
+  
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-dark">
+    <div class="row">
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Roles :</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Supplier</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Manufacturer</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Wholesaler</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Distributer</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Retail Store</p>
+      </div>
+      <div class="column1">
+        <p class="lead" style="color: white;font-size: xx-large;">Transporter</p>
+      </div>
+    </div>
+  </article>
 </div>
+
+<!-- <div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Users Accounts</p>
+      <div class="content">
+        <ul>
+          <div *ngFor="let account of accounts">
+            <li >{{ account }}</li>
+          </div>
+        </ul>
+      </div>
+  </article>
+</div> -->
+

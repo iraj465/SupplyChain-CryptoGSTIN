@@ -1,0 +1,117 @@
+<article class="tile is-child is- 2by2 notification is-danger">
+  <p class="lead" style="font-size: xx-large;">Welcome back,{{storeName}}</p>
+  <!-- <p class="subtitle"></p> -->
+</article>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{storeLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{storeAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{storeBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="color: white;font-size: xx-large;">Receive Product Consignment</p>
+    <h2 class="lead" style="color: white;font-size: x-large;">
+      Distributer to Retail Store
+    </h2>
+  </article>
+</div>
+<div class="field">
+  <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter Product UID" [(ngModel)]="pUID">
+</div> 
+<div class="field">
+  <label class="label">Product Consignment(C2) UID</label>
+  <input class="input is-success" type="text" placeholder="Enter Retail consignment UID" [(ngModel)]="conID">
+</div> 
+<div class="field">
+  <label class="label">From Manufacture(ETH Address)</label>
+    <input class="input is-success" type="text" placeholder="Enter Manufacturer Ethereum Address" [(ngModel)]="manuAddress">
+</div>
+<div class="field">
+  <button class="button lead is-danger" (click)="receivePackage()">Receive</button>
+</div>
+<br>
+<article class="tile is-child notification is-dark is-bold">
+  <p class="lead" style="color:white;font-size: xx-large;">Get Product Status in Store</p>
+</article>
+<br>
+<div class="field">
+  <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter Product B-GTIN" [(ngModel)]="gtin">
+</div> 
+<div class="field">
+  <button class="button lead is-danger" (click)="prodStatus()">Get Product Status</button>
+</div>
+<h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="getstatus"><b>{{status}}</b></h4>
+<br>
+
+<article class="tile is-child notification is-dark is-bold">
+  <p class="lead" style="color:white;font-size: xx-large;">Update Product Status in Store</p>
+</article>
+<br>
+<div class="field">
+  <label class="label">Product B-GTIN</label>
+    <input class="input is-success" type="text" placeholder="Enter Product B-GTIN" [(ngModel)]="uprodID">
+</div> 
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button lead is-primary" (click)="sold()">Sold</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="damaged()">Damaged</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-info" (click)="expired()">Expired</button>
+  </div>
+</div>
+<br>
+<div class="field">
+  <button class="button lead is-danger" (click)="updateStatus()">Update Product Status</button>
+</div>
+<br>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="field">
+    <button class="button lead is-danger" (click)="batchCount()">Store inventory Count</button>
+    <p style="color: brown;font-size: xx-large;font-weight: bold;">{{bCount}}</p>
+  </div>
+</article>
+<br>
+<div class="field is-grouped">
+  <div class="control">
+    <button (click)="getBatches()" class="button lead is-primary is-8">Get Store inventory Details</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="resetIDs()">Reset</button>
+  </div>
+</div>
+<br>
+<div *ngIf="gtinpressed" class="has-text-centered">
+  <div class="content has-text-centered">
+    <table class="table table-bordered has-text-centered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Manufactured at</th>
+          <th scope="col">Product B-GTIN</th>
+          <th scope="col">Current Status</th>   
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prod of prods">
+          <td>{{prod.Product}}</td>
+          <td>{{prod.Time}}</td>
+          <td>{{prod.Batch}}</td>
+          <td>{{prod.Status}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  

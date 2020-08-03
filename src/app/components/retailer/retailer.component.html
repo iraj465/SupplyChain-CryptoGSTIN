@@ -1,0 +1,49 @@
+<h4 style="color: brown;font-size:xx-large;font-weight: 600;"><b>Distributer Page</b></h4>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Name</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaName}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{retaBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="title">Receive Product Consignment</p>
+    <h2 class="subtitle">
+      Wholesaler to Distributer
+    </h2>
+  </article>
+</div>
+<div class="field">
+  <label class="label">Product UID</label>
+    <input class="input is-success" type="text" placeholder="Enter Product UID" [(ngModel)]="pUID">
+</div> 
+<div class="field">
+  <label class="label">Consignment UID</label>
+  <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="conID">
+</div> 
+<div class="field">
+  <button class="button is-primary" (click)="receivePackage()">Receive</button>
+</div>
+
+<br>
+<br>
+<h2>Transfer product to store</h2>
+<div class="field">
+  <label class="label">Product UID</label>
+    <input class="input is-success" type="text" placeholder="Enter Product UID" [(ngModel)]="bID">
+</div> 
+<div class="field">
+  <label class="label">Transporter address</label>
+  <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="transAddress">
+</div>
+<div class="field">
+  <label class="label">Store Address</label>
+  <input class="input is-success" type="text" placeholder="Enter consignment ID" [(ngModel)]="storeAddress">
+</div>  
+<div class="field">
+  <button class="button is-primary" (click)="toStore()">Send</button>
+</div>

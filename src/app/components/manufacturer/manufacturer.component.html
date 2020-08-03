@@ -1,1 +1,215 @@
-<p>manufacturer works!</p>
+<article class="tile is-child is- 2by2 notification is-danger">
+  <p class="lead" style="font-size: xx-large;">Welcome back,{{manuName}}</p>
+  <!-- <p class="subtitle"></p> -->
+</article>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Location</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuLocation}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Address</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuAddress}}</li>
+    <h4 style="color: brown;font-size: larger;font-weight: 600;"><b>Balance ETH</b></h4><li style="color:blue;font-size:larger;font-weight: 800;">{{manuBalance}} ETH</li>
+  </div> 
+</article>
+<br>
+<br>
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <button (click)="getpackCount()" class="button lead is-danger is-8">Number of raw material packages received</button> 
+    <h5 *ngIf="packcountPressed" class="lead" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{packCount}}</h5>            
+  </div> 
+</article>
+<br>
+
+<article class="tile is-child notification is-warning">
+  <div class="has-text-left-desktop">
+    <button (click)="getprodCount()" class="button lead is-danger is-8">Number of products manufactured</button> 
+    <h5 *ngIf="prodcountPressed" class="lead" style="color: brown;font-size: xx-large;font-weight: 800;padding-left: 2rem;">{{prodCount}}</h5>            
+  </div> 
+</article>
+<br>
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="color: white;font-size: xx-large;">Receive Raw Material Package</p>
+    <h2 class="lead" style="color: white;font-size: x-large;">
+      By Transporter
+    </h2>
+  </article>
+</div>
+
+<div class="field">
+    <label class="label">From Supplier (ETH Address)</label>
+      <input class="input is-success" type="text" placeholder="Enter Supplier Ethereum address" [(ngModel)]="supplierAddress">
+  </div> 
+  <div class="field">
+    <label class="label">Package UID</label>
+    <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageID">
+  </div> 
+  <div class="field">
+    <button class="button lead is-danger" (click)="receivepackage()">Receive Package</button>
+  </div>
+<br>
+<div class="field">
+  <input class="input is-success" type="text" placeholder="Enter unique Package ID " [(ngModel)]="packageId">
+  <div class="field">
+    <button class="button lead is-danger" (click)=" getrawMaterialStatus()">Get Status</button>
+  </div>
+  <h4 style="color: brown;font-size:x-large;font-weight: 600;" *ngIf="matstat"><b>{{getStatus}}</b></h4>
+</div>
+
+                <!-- Create Product -->
+
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-primary is-bold">
+      <p class="lead" style="color: white;font-size: xx-large;">Create Product package</p>
+      <h2 class="lead" style="color:white;font-size:x-large">
+        To Wholesaler
+      </h2>
+    </article>
+  </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit1()">
+
+  <div class="field">
+    <label class="label">To Wholesaler (ETH Address)</label>
+    <div class="control">
+      <input class="input is-danger" type="text" placeholder="Enter Wholesaler Ethereum Address" formControlName="WAddress">
+    </div>
+  </div>
+ 
+  <div class="field">
+      <label class="label">By Transporter (ETH Address)</label>
+      <div class="control">
+        <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Raw Materials Used</label>
+      <div class="control">
+        <input class="input is-success" type="text" placeholder="Enter Raw Materials used" formControlName="rawmat">
+      </div>
+    </div>
+  
+  <div class="field">
+    <label class="label">Description of Product</label>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-success" type="email" placeholder="Describe the product" value="hello@" formControlName="prodDes">
+    </div>
+  </div>
+  
+  <!-- <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        <input type="checkbox">
+        I agree to the <a href="#">terms and conditions</a>
+      </label>
+    </div>
+  </div> -->
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button lead is-link">Submit</button>
+    </div>
+    <div class="control">
+      <button class="button lead is-link is-light">Cancel</button>
+    </div>
+  </div>
+</form>
+<br>
+                        <!-- // Find product status with unique product id -->
+<label class="label">Find Product Status</label>
+<div class="field">
+  <input class="input is-success" type="text" placeholder="Enter product B-GTIN" [(ngModel)]="prodId">
+  <div class="field">
+    <button class="button lead is-danger" (click)="getprodStatus()">Get Status</button>
+  </div>
+  <h4 style="color: brown;font-size:x-large;font-weight: 600;"><b>{{status}}</b></h4>
+</div>
+
+<div class="tile is-parent">
+  <article class="tile is-child notification is-primary is-bold">
+    <p class="lead" style="color: white;font-size: xx-large;">Create Product package</p>
+    <h2 class="lead" style="color: white;font-size: x-large;">
+      To Retailer (Directly)
+    </h2>
+  </article>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit2()">
+
+<div class="field">
+    <label class="label">Transporter Address</label>
+    <div class="control">
+      <input class="input is-danger" type="text" placeholder="Enter Transporter Ethereum Address" formControlName="TAddress">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Raw Materials</label>
+    <div class="control">
+      <input class="input is-success" type="text" placeholder="Enter Raw Materials used" formControlName="rawmat">
+    </div>
+  </div>
+
+<div class="field">
+  <label class="label">Description of Product</label>
+  <div class="control has-icons-left has-icons-right">
+    <input class="input is-success" type="email" placeholder="Describe the product" value="hello@" formControlName="prodDes">
+  </div>
+</div>
+
+<!-- <div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox">
+      I agree to the <a href="#">terms and conditions</a>
+    </label>
+  </div>
+</div> -->
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button lead is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-link is-light">Cancel</button>
+  </div>
+</div>
+</form>
+<br>
+<br>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button lead is-primary" (click)="getProdInfo()">Get Manufactured Product details</button>
+  </div>
+  <div class="control">
+    <button class="button lead is-danger" (click)="resetpackages()">Reset</button>
+  </div>
+</div>
+
+
+<div *ngIf="tablepressed">
+  <table class="table table-hover table-responsive">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Description</th>
+        <th scope="col">Raw Materials used</th>
+        <th scope="col">Timestamp</th>      
+        <th scope="col">Manufacturer Address</th>      
+        <th scope="col">Transporter Address</th>
+        <th scope="col">Wholesaler Address</th>            
+        <th scope="col">Product Status</th>  
+        <th scope="col">Product B-GTIN</th>    
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{product.Des}}</td>
+        <td>{{product.RM}}</td>
+        <td>{{product.Quant}}</td>
+        <td>{{product.Manu}}</td>
+        <td>{{product.Shpr}}</td>
+        <td>{{product.WAddress}}</td>
+        <td>{{product.Status}}</td>
+        <td>{{product.pid}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

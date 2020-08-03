@@ -12,7 +12,13 @@ import { ManufacturerComponent } from './components/manufacturer/manufacturer.co
 import { SupplierComponent } from './components/supplier/supplier.component';
 import { TransporterComponent } from './components/transporter/transporter.component';
 import { UserComponent } from './components/user/user.component';
+import { EthcontractService } from './ethcontract.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WholesalerComponent } from './components/wholesaler/wholesaler.component';
+import { RetailerComponent } from './components/retailer/retailer.component';
+import { StoreComponent } from './components/store/store.component';
+import { DistributerComponent } from './components/distributer/distributer.component';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -24,16 +30,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ManufacturerComponent,
     SupplierComponent,
     TransporterComponent,
-    UserComponent
+    UserComponent,
+    WholesalerComponent,
+    RetailerComponent,
+    StoreComponent,
+    DistributerComponent,
+    TransactionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AppMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppMaterialModule
   ],
-  providers: [],
+  providers: [EthcontractService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
