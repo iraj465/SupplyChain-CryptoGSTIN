@@ -2,7 +2,7 @@
 ADD TIMESTAMP WHILE CREATING PRODUCTS IN MANUFACTURER PAGE (BOTH IN ANGULAR AND IN SOLIDITY)
 
 
-# Suppplychainui
+# SuppplyChain Crypto-GSTIN Asset traceability
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
